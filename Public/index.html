@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <metacharset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie-edge">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="index.html">Home</a></li>
+      <li><a href="Userlanding.html">My Profile</a></li>
+      <li><a href="#">Page 2</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="signup.html"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+  </div>
+
+</nav>
+
+<body>
+  <div class="wrapper">
+    <!-- Sidebar Holder -->
+    <nav id="sidebar">
+      <div class="sidebar-header">
+        <h3>Sidebar</h3>
+      </div>
+      <ul class="list-unstyled components">
+        <p>Heading</p>
+        <li class="active">
+          <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Home</a>
+        </li>
+        <li>
+          <a href="#">Portfolio</a>
+        </li>
+        <li>
+          <a href="#">Contact</a>
+        </li>
+      </ul>
+
+      <ul class="list-unstyled CTAs">
+        <li><a href="downloadsrc.html" class="download">Download</a></li>
+        <li><a href="market.html" class="article">Market</a></li>
+      </ul>
+    </nav>
+    <div class="container">
+<h1>This is a Heading</h1>
+    <p>This is a paragraph.</p>
+      <div class="row">
+        <div class="column" style="background-color:rgb(172, 173, 182)">
+          <p>This is a column in a container tewasklajsdkfjaskfj;as kjasdkfjaskdfj jakjfaklsd kajsdkfjasdkjfaskld fkjkj askdjf aksdjfkasjdfk kjasdkfjaksdjfaskd jfklajsdkfjasd;lf kasdjf kasdjfkj jasdkfjasd;fja;sdl j;laksjdflkasjd; kjasdkl asjfkl asjkasjkf asdjas aks as;d f
+          </p>
+        </div>
+  <div class="column" style="background-color: rgb(229, 255, 0)">
+This is another column within the same row
+</div>
+      </div>
+This is another row
+  <div class ="row">
+
+<div class="column" style="background-color: rgb(0, 60, 255)">
+This is another column in a different row asdfawef aewf a awdf aefwe fa a
+</div>
+<div class="column" style="background-color: rgb(255, 0, 0)">
+This is another column in a different row sdfgsdfgsdfg
+</div>
+</div>
+      Random place holder
+    </div>
+
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <!-- Bootstrap Js CDN -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+          $('#sidebar').toggleClass('active');
+        });
+      });
+    </script>
+
+    <footer>
+      <button type="button" id="sidebarCollapse" class="btn sbtn-info navbar-btn">
+        <i class="glyphicon glyphicon-align-left"></i>
+        <span>Toggle Sidebar</span>
+      </button>
+<div class="navbar-header">
+      <a class="navbar-brand" href="https://github.com/GitNAG0/Project2" target=_blank><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="45" height="45" " alt="Github Repo">
+ </a>
+    </div>
+    </footer>
+</div>
+</body>
+
+</html>
