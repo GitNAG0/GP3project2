@@ -1,5 +1,19 @@
+require('dotenv').config()
+
+//basic test server for building profile page
+
 const express = require('express')
+const exphbs = require('express-handlebars')
+const path = require('path')
+const app = express();
 
-const app = express()
+app.use(express.static(path.join(__dirname, '/public')))
 
-app.listen(process.env.PORT,() => console.log(`App listening at localhost://${process.env.PORT}`))
+app.engine('handlebars', exphbs());
+app.set('view engine', 'handlebars');
+
+app.get('/', function (req, res) {
+  res.render('info');
+});
+
+app.listen(process.env.PORT, () => console.log('http://localhost:3000'));
