@@ -13,7 +13,7 @@ function drawChart() {
   ]);
 
   // Optional; add a title and set the width and height of the chart
-  var options = { 'title': 'Total Funding by Round', 'width': 550, 'height': 400 };
+  var options = { 'title': 'Total Funding by Round'};
 
   // Display the chart inside the <div> element with id="piechart"
   var chart = new google.visualization.PieChart(document.getElementById('charts'));
