@@ -13,7 +13,7 @@ app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
 app.get('/', function (req, res) {
-  res.render('info',{companyName: 'Apple Inc.', lastRoundType: 'Pre-Seed', lastRoundAmount: 200000});
+  res.render('info',{companyName: 'Apple Inc.', lastRoundType: 'Series B', lastRoundAmount: 5000000});
 });
 
 app.listen(process.env.PORT, () => console.log('http://localhost:3000'));
