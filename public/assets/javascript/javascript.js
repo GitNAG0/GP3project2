@@ -19,3 +19,7 @@ function drawChart() {
   var chart = new google.visualization.PieChart(document.getElementById('charts'));
   chart.draw(data, options);
 }
+
+window.onresize = function () { location.reload(); }
+
+//from https://stackoverflow.com/questions/14915653/refresh-page-on-resize-with-javascript-or-jquery
