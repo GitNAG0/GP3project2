@@ -13,7 +13,7 @@ app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
 app.get('/', function (req, res) {
-  res.render('info');
+  res.render('info',{companyName: 'Apple Inc.'});
 });
 
 app.listen(process.env.PORT, () => console.log('http://localhost:3000'));
