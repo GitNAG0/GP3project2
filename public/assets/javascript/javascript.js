@@ -175,3 +175,14 @@ $('.peopleBtn').click(function (event) {
       generatePersonProfile(data);
     })
 });
+
+function generatePersonProfile(anObject) {
+  $('#person').html(`
+    <h6>${anObject.firstname} ${anObject.lastname}</h6>
+    <p>Role: ${anObject.role}</p>
+    <p>Experience: ${anObject.experience}</p>
+    <button class="btn btn-success" id="addPerson">Add person</button>
+    <button class="btn btn-warning" id="modifyPerson">Modify person</button>
+    <button class="btn btn-danger" id="deletePerson">Delete person</button>
+    `);
+}
