@@ -83,3 +83,20 @@ function createPeopleList(data) {
 };
 
 //Need to call getPeople when a new company is selected
+
+//Select a new company
+//IMPORTANT: the definition HAS to stay a regular function, not an arrow function. We need this to 
+//be the button so we get the appropriate ID. An arrow function will skip a this context.
+$('.companyBtn').click(function (event) {
+  event.preventDefault;
+  axios.get('/getOneCompany',{name: this.id})
+  .then(({data}) => {
+    generateCompanyProfile(data)
+  })
+});
+
+//generate company profile given a company object
+
+function generateCompanyProfile(anObject) {
+  
+}
