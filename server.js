@@ -21,16 +21,17 @@ app.get('/personForm', function (req,res) {
 });
 
 
+
 // Isaac Inserted for Database
 
-// Requiring our models for syncing
-var db = require("./models");
+app.use(express.json())
 
-// Sets up the Express app to handle data parsing
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
-// Static directory
-app.use(express.static("public"));
+app.use(require('./routes'))
 
-app.listen(process.env.PORT, () => console.log('http://localhost:3000'));
+require('./connection')
+  .sync()
+  .then(() => app.listen(process.env.PORT, () => console.log('http://localhost:3000')))
+  .catch(err => console.error(err))
+
+// Isaac Inserted for Database
