@@ -28,8 +28,58 @@ $(window).resize(function () { location.reload(); });
 //reloads the page on resize in order to resize the google chart
 
 //Function to get all companies on pageload
-//(won't actually be run until routes are finished and it will run)
+function getCompanies(username,cb) {
+  axios.get('/getAllCompaniesUser',{username});
+  .then(({data}) => {
+    cb(data);
+  });
+};
 
-function getCompanies() {
-  
-}
+
+//Function to create a Bootstrap list from an array of company objects
+function createCompanyList(data) {
+  //clear company list
+  $('#companies').html('');
+
+  //Create new elements for each item in the company list, and add them to the page
+  data.forEach(element => {
+      //<button class="list-group-item list-group-item-action">Apple Inc.</button>
+    let newListItem = $('<button></button>').text(element.name);
+    newListItem.addClass("list-group-item");
+    newListItem.attr('id',element.name);
+    $('#companies').append(newListItem);
+  });
+};
+
+$(document).ready(function () {
+  // getCompanies(localStorage.getItem('username'),createCompanyList);
+  // uncomment when sign-in and routes get built
+});
+
+
+//Function to get all people from a company
+function getPeople(company, cb) {
+  axios.get('/getOneCompanyPeople', { name: company });
+  .then(({ data }) => {
+    cb(data);
+  });
+};
+
+
+//Function to create a Bootstrap list from an array of people objects
+function createPeopleList(data) {
+  //clear people list
+  $('#people').html('');
+
+  //Create new elements for each item in the people list, and add them to the page
+  data.forEach(element => {
+    let name = element.firstname + ' ' + element.lastname
+    //<button class="list-group-item list-group-item-action">Apple Inc.</button>
+    let newListItem = $('<button></button>').text(name);
+    newListItem.addClass("list-group-item");
+    newListItem.attr('id', name);
+    $('#people').append(newListItem);
+  });
+};
+
+//Need to call getPeople when a new company is selected
