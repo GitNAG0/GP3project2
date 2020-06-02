@@ -29,7 +29,7 @@ $(window).resize(function () { location.reload(); });
 
 //Function to get all companies on pageload
 function getCompanies(username,cb) {
-  axios.get('/getAllCompaniesUser',{username});
+  axios.get('/getAllCompaniesUser',{username})
   .then(({data}) => {
     cb(data);
   });
@@ -59,7 +59,7 @@ $(document).ready(function () {
 
 //Function to get all people from a company
 function getPeople(company, cb) {
-  axios.get('/getOneCompanyPeople', { name: company });
+  axios.get('/getOneCompanyPeople', { name: company })
   .then(({ data }) => {
     cb(data);
   });
