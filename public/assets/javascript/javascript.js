@@ -132,13 +132,18 @@ $('.companyBtn').click(function (event) {
 function generateCompanyProfile(anObject) {
   //we can do this intelligently!
   //with handlebars templating!
-  { name } = anObject
+  let { name } = anObject
 
+  //get last round data
   axios.get('/getLastRound',name)
   .then(({data}) => {
+    //render page with last round data
     axios.get('/', { companyName: name, lastRoundType: data.type, lastRoundAmount: data.amount })
-    .then(({data}) => {
-      //update person div
+    .then(junk => {
+      getPeople(name,createPeopleList) //create people list
+      //clear person div
+      $('#person').html('')
+      //we can put a person in there when they select a person from the list
     })
   })
 }
