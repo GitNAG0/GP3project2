@@ -16,4 +16,8 @@ app.get('/', function (req, res) {
   res.render('info',{companyName: 'Apple Inc.', lastRoundType: 'Series B', lastRoundAmount: 5000000});
 });
 
+app.get('/personForm', function (req,res) {
+  res.render('personForm')
+})
+
 app.listen(process.env.PORT, () => console.log('http://localhost:3000'));
