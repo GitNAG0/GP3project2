@@ -45,9 +45,18 @@ function createCompanyList(data) {
   data.forEach(element => {
       //<button class="list-group-item list-group-item-action">Apple Inc.</button>
     let newListItem = $('<button></button>').text(element.name);
-    newListItem.addClass("list-group-item");
+    newListItem.addClass("list-group-item companyBtn");
     newListItem.attr('id',element.name);
     $('#companies').append(newListItem);
+  });
+
+  //re-add event listeners
+  $('.companyBtn').click(function (event) {
+    event.preventDefault;
+    axios.get('/getOneCompany', { name: this.id })
+      .then(({ data }) => {
+        generateCompanyProfile(data)
+      })
   });
 };
 
@@ -76,7 +85,7 @@ function createPeopleList(data) {
     let name = element.firstname + ' ' + element.lastname
     //<button class="list-group-item list-group-item-action">Apple Inc.</button>
     let newListItem = $('<button></button>').text(name);
-    newListItem.addClass("list-group-item");
+    newListItem.addClass("list-group-item peopleBtn");
     newListItem.attr('id', name);
     $('#people').append(newListItem);
   });
@@ -132,7 +141,7 @@ $('.companyBtn').click(function (event) {
 function generateCompanyProfile(anObject) {
   //we can do this intelligently!
   //with handlebars templating!
-  let { name } = anObject
+  let { name } = anObject;
 
   //get last round data
   axios.get('/getLastRound',name)
@@ -140,10 +149,29 @@ function generateCompanyProfile(anObject) {
     //render page with last round data
     axios.get('/', { companyName: name, lastRoundType: data.type, lastRoundAmount: data.amount })
     .then(junk => {
-      getPeople(name,createPeopleList) //create people list
+      getPeople(name,createPeopleList); //create people list
+      //add event listener to people buttons
+      $('.peopleBtn').click(function (event) {
+        event.preventDefault;
+        let lastname = this.id.split(' ')[1];
+        axios.get('/getOnePerson', { lastname })
+          .then(({ data }) => {
+            generatePersonProfile(data);
+          })
+      });
       //clear person div
-      $('#person').html('')
+      $('#person').html('');
       //we can put a person in there when they select a person from the list
+    });
+  });
+};
+
+//add event listener to people buttons
+$('.peopleBtn').click(function (event) {
+  event.preventDefault;
+  let lastname = this.id.split(' ')[1];
+  axios.get('/getOnePerson', { lastname })
+    .then(({ data }) => {
+      generatePersonProfile(data);
     })
-  })
-}
+});
