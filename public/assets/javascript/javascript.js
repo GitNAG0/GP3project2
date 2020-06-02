@@ -23,3 +23,5 @@ function drawChart() {
 $(window).resize(function () { location.reload(); });
 
 //from https://stackoverflow.com/questions/14915653/refresh-page-on-resize-with-javascript-or-jquery
+
+$
