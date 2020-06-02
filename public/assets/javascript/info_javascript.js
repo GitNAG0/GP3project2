@@ -147,6 +147,7 @@ function generateCompanyProfile(anObject) {
   //we can do this intelligently!
   //with handlebars templating!
   let { name } = anObject;
+  localStorage.setItem('currentCompany', JSON.stringify(anObject));
 
   //get last round data
   axios.get('/getLastRound',name)
