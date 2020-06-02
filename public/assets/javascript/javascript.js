@@ -97,6 +97,48 @@ $('.companyBtn').click(function (event) {
 
 //generate company profile given a company object
 
+{/* 
+<div class="row text-center mb-2">
+  <div class="col">
+    <h1>{{ companyName }}</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div id="charts" class="chart mt-3"></div>
+  </div>
+  <div class="col-md-6">
+    <div id="lastRound" class="m-3">
+      <h4>Last Round Raised</h4>
+        <p>Type: {{ lastRoundType }}</p>
+        <p>Amount: {{ lastRoundAmount }}</p>
+        <button class="btn btn-success" id="addRound">Add round</button>
+        <button class="btn btn-warning" id="modifyRound">Modify round</button>
+        <button class="btn btn-danger" id="deleteRound">Delete round</button>
+      </div>
+      <div id="team" class="m-3">
+        <h4>Selected Person</h4>
+        <div id="person">
+          <h6>Josh Joshisson</h6>
+          <p>Role: CEO</p>
+          <p>Experience: Business, Marketing</p>
+          <button class="btn btn-success" id="addPerson">Add person</button>
+          <button class="btn btn-warning" id="modifyPerson">Modify person</button>
+          <button class="btn btn-danger" id="deletePerson">Delete person</button>
+        </div>
+      </div>
+    </div>
+  </div> */}
 function generateCompanyProfile(anObject) {
-  
+  //we can do this intelligently!
+  //with handlebars templating!
+  { name } = anObject
+
+  axios.get('/getLastRound',name)
+  .then(({data}) => {
+    axios.get('/', { companyName: name, lastRoundType: data.type, lastRoundAmount: data.amount })
+    .then(({data}) => {
+      //update person div
+    })
+  })
 }
