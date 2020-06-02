@@ -1,13 +1,13 @@
-require('dotenv').config()
+require('dotenv').config();
 
 //basic test server for building profile page
 
-const express = require('express')
-const exphbs = require('express-handlebars')
-const path = require('path')
+const express = require('express');
+const exphbs = require('express-handlebars');
+const path = require('path');
 const app = express();
 
-app.use(express.static(path.join(__dirname, '/public')))
+app.use(express.static(path.join(__dirname, '/public')));
 
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
