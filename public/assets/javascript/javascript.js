@@ -18,8 +18,12 @@ function drawChart() {
   var options = { 'title': 'Total Funding by Round'};
 
   // Display the chart inside the <div> element with id="piechart"
-  var chart = new google.visualization.PieChart(document.getElementById('charts'));
-  chart.draw(data, options);
+  //only if we're on the correct page
+  console.log(window.location)
+  if(window.location.pathname == '/'){
+    var chart = new google.visualization.PieChart(document.getElementById('charts'));
+    chart.draw(data, options);
+  }
 }
 
 $(window).resize(function () { location.reload(); });
@@ -63,6 +67,7 @@ function createCompanyList(data) {
 $(document).ready(function () {
   // getCompanies(localStorage.getItem('username'),createCompanyList);
   // uncomment when sign-in and routes get built
+  addAddModifyDeleteListeners()
 });
 
 
@@ -185,4 +190,24 @@ function generatePersonProfile(anObject) {
     <button class="btn btn-warning" id="modifyPerson">Modify person</button>
     <button class="btn btn-danger" id="deletePerson">Delete person</button>
     `);
+  localStorage.setItem('currentPerson',JSON.stringify(anObject));
+}
+
+function addAddModifyDeleteListeners(){
+  $('#addRound').click((event) => {
+    window.location = 'roundForm';
+  });
+  // $('#modifyRound')
+  // $('#deleteRound')
+  $('#addPerson').click((event) => {
+    window.location = 'personForm';
+    localStorage.setItem('action', 'add');
+  });
+  $('#modifyPerson').click((event) => {
+    window.location = 'personForm';
+    localStorage.setItem('action', 'modify');
+  });
+  $('#deletePerson').click((event) => {
+    axios.delete('/deleteOnePerson',JSON.parse(localStorage.getItem('currentPerson')).lastname);
+  });
 }
