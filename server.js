@@ -20,4 +20,17 @@ app.get('/personForm', function (req,res) {
   res.render('personForm')
 });
 
+
+// Isaac Inserted for Database
+
+// Requiring our models for syncing
+var db = require("./models");
+
+// Sets up the Express app to handle data parsing
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Static directory
+app.use(express.static("public"));
+
 app.listen(process.env.PORT, () => console.log('http://localhost:3000'));
