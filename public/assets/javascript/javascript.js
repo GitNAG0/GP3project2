@@ -1,3 +1,5 @@
+//Google charts stuff (copied from online)
+
 // Load google charts
 google.charts.load('current', { 'packages': ['corechart'] });
 google.charts.setOnLoadCallback(drawChart);
@@ -23,5 +25,11 @@ function drawChart() {
 $(window).resize(function () { location.reload(); });
 
 //from https://stackoverflow.com/questions/14915653/refresh-page-on-resize-with-javascript-or-jquery
+//reloads the page on resize in order to resize the google chart
 
-$
+//Function to get all companies on pageload
+//(won't actually be run until routes are finished and it will run)
+
+function getCompanies() {
+  
+}
