@@ -33,7 +33,7 @@ $(window).resize(function () { location.reload(); });
 
 //Function to get all companies on pageload
 function getCompanies(username,cb) {
-  axios.get('/getAllCompaniesUser',{username})
+  axios.get('/api/getAllCompaniesUser',{username})
   .then(({data}) => {
     cb(data);
   });
@@ -57,7 +57,7 @@ function createCompanyList(data) {
   //re-add event listeners
   $('.companyBtn').click(function (event) {
     event.preventDefault;
-    axios.get('/getOneCompany', { name: this.id })
+    axios.get('/api/getOneCompany', { name: this.id })
       .then(({ data }) => {
         generateCompanyProfile(data)
       })
@@ -73,7 +73,7 @@ $(document).ready(function () {
 
 //Function to get all people from a company
 function getPeople(company, cb) {
-  axios.get('/getOneCompanyPeople', { name: company })
+  axios.get('/api/getOneCompanyPeople', { name: company })
   .then(({ data }) => {
     cb(data);
   });
@@ -103,7 +103,7 @@ function createPeopleList(data) {
 //be the button so we get the appropriate ID. An arrow function will skip a this context.
 $('.companyBtn').click(function (event) {
   event.preventDefault;
-  axios.get('/getOneCompany',{name: this.id})
+  axios.get('/api/getOneCompany',{name: this.id})
   .then(({data}) => {
     generateCompanyProfile(data)
   })
@@ -150,7 +150,7 @@ function generateCompanyProfile(anObject) {
   localStorage.setItem('currentCompany', JSON.stringify(anObject));
 
   //get last round data
-  axios.get('/getLastRound',name)
+  axios.get('/api/getLastRound',name)
   .then(({data}) => {
     //render page with last round data
     axios.get('/', { companyName: name, lastRoundType: data.type, lastRoundAmount: data.amount })
@@ -160,7 +160,7 @@ function generateCompanyProfile(anObject) {
       $('.peopleBtn').click(function (event) {
         event.preventDefault;
         let lastname = this.id.split(' ')[1];
-        axios.get('/getOnePerson', { lastname })
+        axios.get('/api/getOnePerson', { lastname })
           .then(({ data }) => {
             generatePersonProfile(data);
           })
@@ -176,7 +176,7 @@ function generateCompanyProfile(anObject) {
 $('.peopleBtn').click(function (event) {
   event.preventDefault;
   let lastname = this.id.split(' ')[1];
-  axios.get('/getOnePerson', { lastname })
+  axios.get('/api/getOnePerson', { lastname })
     .then(({ data }) => {
       generatePersonProfile(data);
     })
@@ -209,7 +209,7 @@ function addAddModifyDeleteListeners(){
     localStorage.setItem('action', 'modify');
   });
   $('#deletePerson').click((event) => {
-    axios.delete('/deleteOnePerson',JSON.parse(localStorage.getItem('currentPerson')).lastname);
+    axios.delete('/api/deleteOnePerson',JSON.parse(localStorage.getItem('currentPerson')).lastname);
   });
 }
 
@@ -220,7 +220,7 @@ $('#deleteRound').click(event => {
     $('#deleteRoundList').html('string')
     $('.deleteRoundListBtn').click(function (event) {
       event.preventDefault()
-      axios.delete('/deleteOneRound', { id: this.id }).then(generateDeleteRoundList()) //regenerate list
+      axios.delete('/api/deleteOneRound', { id: this.id }).then(generateDeleteRoundList()) //regenerate list
     });
   })
 });
@@ -235,7 +235,7 @@ $('#deleteRound').click(event => {
 
 function generateDeleteRoundList(cb){
   let myArr = [];
-  axios.get('/getOneCompanyRounds',{name: JSON.parse(localStorage.getItem('currentCompany')).name})
+  axios.get('/api/getOneCompanyRounds',{name: JSON.parse(localStorage.getItem('currentCompany')).name})
   .then(({data}) => {
     data.forEach(element => {
       let newString = ` <button type="button" class="list-group-item list-group-item-action deleteRoundListBtn" id = "${element.id}">Type: ${element.type} Amount: ${element.amount}</button>`
@@ -254,7 +254,7 @@ $('#modifyRound').click(event => {
     $('.modifyRoundListBtn').click(function (event) {
       event.preventDefault()
       localStorage.setItem('action','modify')
-      axios.get('/getOneRound',{id: this.id}).then(({data}) => {
+      axios.get('/api/getOneRound',{id: this.id}).then(({data}) => {
         localStorage.setItem('currentRound',JSON.stringify(data))
         window.location = roundForm
       })
@@ -272,7 +272,7 @@ $('#modifyRound').click(event => {
 
 function generateModifyRoundList(cb) {
   let myArr = [];
-  axios.get('/getOneCompanyRounds', { name: JSON.parse(localStorage.getItem('currentCompany')).name })
+  axios.get('/api/getOneCompanyRounds', { name: JSON.parse(localStorage.getItem('currentCompany')).name })
     .then(({ data }) => {
       data.forEach(element => {
         let newString = ` <button type="button" class="list-group-item list-group-item-action modifyRoundListBtn" id = "${element.id}">Type: ${element.type} Amount: ${element.amount}</button>`

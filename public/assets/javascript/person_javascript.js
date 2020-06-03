@@ -22,7 +22,7 @@ $('#submitAddPerson').click(event => {
 
   switch (localStorage.getItem('action')) {
     case 'add':
-      axios.post('/addOnePerson',newPerson)
+      axios.post('/api/addOnePerson',newPerson)
         .then(() => {
           window.location = 'home'
         });
@@ -32,7 +32,7 @@ $('#submitAddPerson').click(event => {
           id: JSON.parse(localStorage.getItem('currentPerson')).id
           person: newPerson
         };
-        axios.put('/updateOnePerson',reqBody)
+        axios.put('/api/updateOnePerson',reqBody)
         .then(() => {
           window.location = 'home'
         });
