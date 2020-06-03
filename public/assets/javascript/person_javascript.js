@@ -28,17 +28,14 @@ $('#submitAddPerson').click(event => {
         });
       break;
     case 'modify':
-      axios.get('/getOnePerson', JSON.parse(localStorage.getItem('currentPerson')).lastname);
-      .then(({data}) => {
         let reqBody = {
-          id: data.id
+          id: JSON.parse(localStorage.getItem('currentPerson')).id
           person: newPerson
         };
         axios.put('/updateOnePerson',reqBody)
         .then(() => {
           window.location = 'home'
         });
-      })
       break;
 
     default:
