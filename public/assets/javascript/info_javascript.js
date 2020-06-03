@@ -249,7 +249,7 @@ function generateDeleteRoundList(cb){
 //modify round evenet listener to fill out the modal
 $('#modifyRound').click(event => {
   event.preventDefault();
-  generateDeleteRoundList((string) => {
+  generateModifyRoundList((string) => {
     $('#modifyRoundList').html('string')
     $('.modifyRoundListBtn').click(function (event) {
       event.preventDefault()
@@ -270,7 +270,7 @@ $('#modifyRound').click(event => {
   <button type="button" class="list-group-item list-group-item-action">Porta ac consectetur ac</button>
   <button type="button" class="list-group-item list-group-item-action" disabled>Vestibulum at eros</button> */}
 
-function generateDeleteRoundList(cb) {
+function generateModifyRoundList(cb) {
   let myArr = [];
   axios.get('/getOneCompanyRounds', { name: JSON.parse(localStorage.getItem('currentCompany')).name })
     .then(({ data }) => {
