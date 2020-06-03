@@ -17,21 +17,25 @@ $('#submitAddPerson').click(event => {
     lastname: $('#lastname').val()
     role: $('#role').val()
     experience: $('#experience').val()
+    company_id: JSON.parse(localStorage.getItem('currentCompany')).id
   };
 
   switch (localStorage.getItem('action')) {
     case 'add':
       axios.post('/addOnePerson',newPerson)
+        .then(() => {
+          window.location = 'home'
+        });
       break;
     case 'modify':
-      axios.get('/getOnePerson', JSON.parse(localStorage.getItem('currentPerson')).lastname);
-      .then(({data}) => {
         let reqBody = {
-          id: data.id
+          id: JSON.parse(localStorage.getItem('currentPerson')).id
           person: newPerson
         };
-        axios.put('/updateOnePerson',reqBody);
-      })
+        axios.put('/updateOnePerson',reqBody)
+        .then(() => {
+          window.location = 'home'
+        });
       break;
 
     default:

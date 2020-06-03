@@ -15,7 +15,7 @@ function drawChart() {
   ]);
 
   // Optional; add a title and set the width and height of the chart
-  var options = { 'title': 'Total Funding by Round'};
+  var options = { 'title': 'Total Funding by Round (in k$)'};
 
   // Display the chart inside the <div> element with id="piechart"
   //only if we're on the correct page
@@ -212,3 +212,73 @@ function addAddModifyDeleteListeners(){
     axios.delete('/deleteOnePerson',JSON.parse(localStorage.getItem('currentPerson')).lastname);
   });
 }
+
+//delete round evenet listener to fill out the modal
+$('#deleteRound').click(event => {
+  event.preventDefault();
+  generateDeleteRoundList((string) => {
+    $('#deleteRoundList').html('string')
+    $('.deleteRoundListBtn').click(function (event) {
+      event.preventDefault()
+      axios.delete('/deleteOneRound', { id: this.id }).then(generateDeleteRoundList()) //regenerate list
+    });
+  })
+});
+
+{/* <button type="button" class="list-group-item list-group-item-action active">
+  Cras justo odio
+          </button>
+  <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
+  <button type="button" class="list-group-item list-group-item-action">Morbi leo risus</button>
+  <button type="button" class="list-group-item list-group-item-action">Porta ac consectetur ac</button>
+  <button type="button" class="list-group-item list-group-item-action" disabled>Vestibulum at eros</button> */}
+
+function generateDeleteRoundList(cb){
+  let myArr = [];
+  axios.get('/getOneCompanyRounds',{name: JSON.parse(localStorage.getItem('currentCompany')).name})
+  .then(({data}) => {
+    data.forEach(element => {
+      let newString = ` <button type="button" class="list-group-item list-group-item-action deleteRoundListBtn" id = "${element.id}">Type: ${element.type} Amount: ${element.amount}</button>`
+      myArr.push(newString)
+    });
+
+    cb(myArr.join('\n'))
+  });
+};
+
+//modify round evenet listener to fill out the modal
+$('#modifyRound').click(event => {
+  event.preventDefault();
+  generateModifyRoundList((string) => {
+    $('#modifyRoundList').html('string')
+    $('.modifyRoundListBtn').click(function (event) {
+      event.preventDefault()
+      localStorage.setItem('action','modify')
+      axios.get('/getOneRound',{id: this.id}).then(({data}) => {
+        localStorage.setItem('currentRound',JSON.stringify(data))
+        window.location = roundForm
+      })
+    });
+  })
+});
+
+{/* <button type="button" class="list-group-item list-group-item-action active">
+  Cras justo odio
+          </button>
+  <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
+  <button type="button" class="list-group-item list-group-item-action">Morbi leo risus</button>
+  <button type="button" class="list-group-item list-group-item-action">Porta ac consectetur ac</button>
+  <button type="button" class="list-group-item list-group-item-action" disabled>Vestibulum at eros</button> */}
+
+function generateModifyRoundList(cb) {
+  let myArr = [];
+  axios.get('/getOneCompanyRounds', { name: JSON.parse(localStorage.getItem('currentCompany')).name })
+    .then(({ data }) => {
+      data.forEach(element => {
+        let newString = ` <button type="button" class="list-group-item list-group-item-action modifyRoundListBtn" id = "${element.id}">Type: ${element.type} Amount: ${element.amount}</button>`
+        myArr.push(newString)
+      });
+
+      cb(myArr.join('\n'))
+    });
+};

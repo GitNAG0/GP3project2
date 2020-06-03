@@ -38,7 +38,7 @@
               <p>Amount: {{lastRoundAmount}}</p>
               <button class="btn btn-success" id="addRound">Add round</button>
               <button class="btn btn-warning" id="modifyRound">Modify round</button>
-              <button class="btn btn-danger" id="deleteRound">Delete round</button>
+              <button class="btn btn-danger" type = "button" id="deleteRound" data-toggle="modal" data-target="#deleteRoundModal">Delete round</button>
             </div>
             <div id="team" class = "m-3">
               <h4>Selected Person</h4>
@@ -82,6 +82,52 @@
           </ul>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+{{!-- Modals --}}
+
+<!-- Delete round -->
+<div class="modal fade" id="deleteRoundModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Round</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="list-group" id ="deleteRoundList">
+        </div>
+      </div>
+      {{!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> --}}
+    </div>
+  </div>
+</div>
+
+<!-- Modify round -->
+<div class="modal fade" id="deleteRoundModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modify Round</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="list-group" id="modifyRoundList">
+        </div>
+      </div>
+      {{!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> --}}
     </div>
   </div>
 </div>
