@@ -7,4 +7,7 @@ $('#submitAddRound').click(event => {
   let newRound = { type, amount, dateRaised, company_id: JSON.parse(localStorage.getItem('currentCompany')).id}
 
   axios.post('/addOneRound',newRound)
+    .then(() => {
+      window.location = 'home'
+    })
 })

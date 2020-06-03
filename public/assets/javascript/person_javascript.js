@@ -23,6 +23,9 @@ $('#submitAddPerson').click(event => {
   switch (localStorage.getItem('action')) {
     case 'add':
       axios.post('/addOnePerson',newPerson)
+        .then(() => {
+          window.location = 'home'
+        });
       break;
     case 'modify':
       axios.get('/getOnePerson', JSON.parse(localStorage.getItem('currentPerson')).lastname);
@@ -31,7 +34,10 @@ $('#submitAddPerson').click(event => {
           id: data.id
           person: newPerson
         };
-        axios.put('/updateOnePerson',reqBody);
+        axios.put('/updateOnePerson',reqBody)
+        .then(() => {
+          window.location = 'home'
+        });
       })
       break;
 
