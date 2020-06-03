@@ -12,6 +12,10 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
+const router = require('./routes')
+
+app.use(router)
+
 app.get('/', function (req, res) {
   res.render('info',req.body);
 });
