@@ -17,6 +17,7 @@ $('#submitAddPerson').click(event => {
     lastname: $('#lastname').val()
     role: $('#role').val()
     experience: $('#experience').val()
+    company_id: JSON.parse(localStorage.getItem('currentCompany')).id
   };
 
   switch (localStorage.getItem('action')) {
