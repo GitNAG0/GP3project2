@@ -15,7 +15,7 @@ function drawChart() {
   ]);
 
   // Optional; add a title and set the width and height of the chart
-  var options = { 'title': 'Total Funding by Round'};
+  var options = { 'title': 'Total Funding by Round (in k$)'};
 
   // Display the chart inside the <div> element with id="piechart"
   //only if we're on the correct page
