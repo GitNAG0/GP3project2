@@ -212,3 +212,33 @@ function addAddModifyDeleteListeners(){
     axios.delete('/deleteOnePerson',JSON.parse(localStorage.getItem('currentPerson')).lastname);
   });
 }
+
+//delete round evenet listener to fill out the modal
+$('#deleteRound').click(event => {
+  event.preventDefault();
+  $('#deleteRoundList').html(generateDeleteRoundList('delete'));
+});
+
+{/* <button type="button" class="list-group-item list-group-item-action active">
+  Cras justo odio
+          </button>
+  <button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
+  <button type="button" class="list-group-item list-group-item-action">Morbi leo risus</button>
+  <button type="button" class="list-group-item list-group-item-action">Porta ac consectetur ac</button>
+  <button type="button" class="list-group-item list-group-item-action" disabled>Vestibulum at eros</button> */}
+
+function generateDeleteRoundList(){
+  let myArr = [];
+  axios.get('/getOneCompanyRounds',{name: JSON.parse(localStorage.getItem('currentCompany')).name})
+  .then(({data}) => {
+    data.forEach(element => {
+      let newString = ` <button type="button" class="list-group-item list-group-item-action deleteRoundListBtn" id = "${element.id}">Type: ${element.type} Amount: ${element.amount}</button>`
+      myArr.push(newString)
+    });
+
+    $('.deleteRoundListBtn').click(function (event) {
+      event.preventDefault()
+      axios.delete('/deleteOneRound',{id: this.id}).then(generateDeleteRoundList()) //regenerate list
+    });
+  });
+};
