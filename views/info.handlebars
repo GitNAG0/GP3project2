@@ -1,24 +1,143 @@
-get all the companies! sidebar
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#"><img src="/assets/images/josh-logo.png" alt="josh logo" style = "height: 84px; width 150px;"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-get one company for the center
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <button class = "btn btn-info">Log Out</button>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search content" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
 
-create
+<div class="container-fluid">
+  <div class="row mt-5">
+    <div class="col-md-9 p-5 bg-info border rounded" id ="mainArea">
+      <div id="innerArea" class="bg-white border rounded p-3">
+        <div class="row text-center mb-2">
+          <div class="col">
+            <h1>{{companyName}}</h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div id="charts" class = "chart mt-3"></div>
+          </div>
+          <div class="col-md-6">
+            <div id="lastRound" class = "m-3">
+              <h4>Last Round Raised</h4>
+              <p>Type: {{lastRoundType}}</p>
+              <p>Amount: {{lastRoundAmount}}</p>
+              <button class="btn btn-success" id="addRound">Add round</button>
+              <button class="btn btn-warning" id="modifyRound">Modify round</button>
+              <button class="btn btn-danger" type = "button" id="deleteRound" data-toggle="modal" data-target="#deleteRoundModal">Delete round</button>
+            </div>
+            <div id="team" class = "m-3">
+              <h4>Selected Person</h4>
+              <div id="person">
+                <h6>Josh Joshisson</h6>
+                <p>Role: CEO</p>
+                <p>Experience: Business, Marketing</p>
+                <button class="btn btn-success" id="addPerson">Add person</button>
+                <button class="btn btn-warning" id="modifyPerson">Modify person</button>
+                <button class="btn btn-danger" id="deletePerson">Delete person</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col text-center">
+          <button class="btn btn-success" id = "addCompany">Add a new company</button>
+          <button class ="btn btn-danger" id = "deleteCompany">Delete this company</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 p-3 border rounded bg-info" id ="sidebar">
+      <div class="row">
+        <div class="col mb-2">
+          <h4 class="text-center">Companies</h4>
+            <ul class="list-group" id = "companies">
+              <button class="list-group-item list-group-item-action companyBtn" id ="Apple Inc.">Apple Inc.</button>
+              <button class="list-group-item list-group-item-action companyBtn" id ="Google Inc.">Google Inc.</button>
+              <button class="list-group-item list-group-item-action companyBtn" id ="Netflix Inc.">Netflix Inc.</button>
+            </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h4 class="text-center">People</h4>
+          <ul class="list-group" id ="people">
+            <button class="list-group-item list-group-item-action peopleBtn" id = "Josh Joshisson">Josh Joshisson</button>
+            <button class="list-group-item list-group-item-action peopleBtn" id = "Jeff Jefferson">Jeff Jefferson</button>
+            <button class="list-group-item list-group-item-action peopleBtn" id = "Angelique Angeliquesson">Angelique Angeliquesson</button>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-{companyName: 'asfdsfsdf', currentValuation: 'asfsdfsdf'}
+{{!-- Modals --}}
 
-companyName text
-lastRoundRaised text
-Staff
+<!-- Delete round -->
+<div class="modal fade" id="deleteRoundModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Round</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="list-group" id ="deleteRoundList">
+        </div>
+      </div>
+      {{!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> --}}
+    </div>
+  </div>
+</div>
 
-company hasMany Staff
+<!-- Modify round -->
+<div class="modal fade" id="deleteRoundModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modify Round</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="list-group" id="modifyRoundList">
+        </div>
+      </div>
+      {{!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> --}}
+    </div>
+  </div>
+</div>
 
-staff belongsTo company
-staff
-first name
-last name
-
-update id property newValue
-
-{id: 7, property: "name of property", newValue: "a great new value"}
-
-delete
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+  integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+  integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="/assets/javascript/info_javascript.js"></script>
