@@ -284,3 +284,8 @@ function generateModifyRoundList(cb) {
 $('#addCompany').click((event) => {
   window.location = 'companyForm';
 });
+
+//delete a company
+$('#deleteCompany').click((event) => {
+  axios.delete(`/api/deleteOneCompany/${JSON.parse(localStorage.getItem('currentCompany')).id}`);
+});
