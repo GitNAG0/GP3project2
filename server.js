@@ -23,15 +23,20 @@ app.get('/personForm', function (req,res) {
 
 
 // Isaac Inserted for Database
-
+var db = require("./models");
 app.use(express.json())
+var PORT = process.env.PORT || 8080;
 
 
-app.use(require('./routes'))
+// DONT FORGET TO ADD BACK IN
+// app.use(require('./routes'))
 
-require('./connection')
-  .sync()
-  .then(() => app.listen(process.env.PORT, () => console.log('http://localhost:3000')))
-  .catch(err => console.error(err))
+// Syncing our sequelize models and then starting our Express app
+db.sequelize.sync({ force: true }).then(function() {
+  app.listen(PORT, function() {
+    console.log("App listening on PORT " + PORT);
+  });
+});
+
 
 // Isaac Inserted for Database
