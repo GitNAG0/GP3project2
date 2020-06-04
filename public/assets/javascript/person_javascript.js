@@ -19,10 +19,14 @@ $('#submitAddPerson').click(event => {
     experience: $('#experience').val()
     company_id: JSON.parse(localStorage.getItem('currentCompany')).id
   };
+  
+  let temp;
+
+  temp.newPerson = newPerson;
 
   switch (localStorage.getItem('action')) {
     case 'add':
-      axios.post('/api/addOnePerson',newPerson)
+      axios.post('/api/createOnePerson',temp)
         .then(() => {
           window.location = 'home'
         });
