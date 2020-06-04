@@ -289,13 +289,3 @@ $('#addCompany').click((event) => {
 $('#deleteCompany').click((event) => {
   axios.delete(`/api/deleteOneCompany/${JSON.parse(localStorage.getItem('currentCompany')).id}`);
 });
-
-$('#screencap').click(event => {
-  html2canvas(document.querySelector("#mainArea")).then(canvas => { //this will not work if you try to $('#mainArea')
-    let myObject = { name: 'newScreenshot.html', canvas}
-    console.log(myObject)
-    axios.post('/api/documentWriter', myObject)
-    .then()
-    .catch(err => console.log(err))
-  });
-})
