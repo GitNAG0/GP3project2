@@ -9,6 +9,10 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, '/public')));
 
+const router = require('./routes')
+
+app.use('/api',router)
+
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
@@ -26,6 +30,10 @@ app.get('/roundForm', function (req, res) {
 
 app.get('/companyForm', function (req, res) {
   res.render('companyForm')
+});
+
+app.get('/screencap', function (req, res) {
+  res.render('screencap')
 });
 
 app.listen(process.env.PORT, () => console.log('http://localhost:3000'));
