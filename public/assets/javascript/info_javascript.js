@@ -149,7 +149,7 @@ function generateCompanyProfile(anObject) {
   localStorage.setItem('currentCompany', JSON.stringify(anObject));
 
   //get last round data
-  axios.get(/api/getLastRound/${id})
+  axios.get(`/api/getLastRound/${id}`)
   .then(({data}) => {
     //render page with last round data
     axios.get('/', { companyName: name, lastRoundType: data.type, lastRoundAmount: data.amount })
