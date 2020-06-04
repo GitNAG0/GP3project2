@@ -24,8 +24,25 @@ app.get('/personForm', function (req,res) {
   res.render('personForm')
 });
 
+
 app.get('/roundForm', function (req, res) {
   res.render('roundForm')
 });
 
-app.listen(process.env.PORT, () => console.log('http://localhost:3000'));
+var db = require("./models");
+app.use(express.json())
+var PORT = process.env.PORT || 8080;
+
+// DONT FORGET TO ADD BACK IN
+// app.use(require('./routes'))
+
+// Syncing our sequelize models and then starting our Express app
+db.sequelize.sync({ force: true }).then(function() {
+  app.listen(PORT, function() {
+    console.log("App listening on PORT " + PORT);
+  });
+});
+
+
+
+
