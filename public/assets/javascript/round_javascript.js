@@ -21,7 +21,7 @@ $('#submitAddRound').click(event => {
     case 'add':
       let temp;
       temp.newRound = newRound;
-      axios.post('/api/addOneRound', newRound)
+      axios.post('/api/addOneRound', temp)
         .then(() => {
           window.location = 'home'
         });

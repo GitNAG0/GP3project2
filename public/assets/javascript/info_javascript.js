@@ -65,7 +65,7 @@ function createCompanyList(data) {
 };
 
 $(document).ready(function () {
-  // getCompanies(localStorage.getItem('userID'),createCompanyList);
+  getCompanies(localStorage.getItem('userID'),createCompanyList);
   // uncomment when sign-in and routes get built
   addAddModifyDeleteListeners()
 });
@@ -279,3 +279,8 @@ function generateModifyRoundList(cb) {
       cb(myArr.join('\n'))
     });
 };
+
+//Add a new company
+$('#addCompany').click((event) => {
+  window.location = 'companyForm';
+});

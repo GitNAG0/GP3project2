@@ -24,4 +24,8 @@ app.get('/roundForm', function (req, res) {
   res.render('roundForm')
 });
 
+app.get('/companyForm', function (req, res) {
+  res.render('companyForm')
+});
+
 app.listen(process.env.PORT, () => console.log('http://localhost:3000'));
