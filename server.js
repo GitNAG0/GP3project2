@@ -9,6 +9,10 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, '/public')));
 
+const router = require('./routes')
+
+app.use('/api',router)
+
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
@@ -17,20 +21,22 @@ app.get('/', function (req, res) {
 });
 
 app.get('/personForm', function (req,res) {
-  res.render('personForm')
+  res.render('personForm');
 });
 
 
 app.get('/roundForm', function (req, res) {
-  res.render('roundForm')
+  res.render('roundForm');
 });
 
 
 app.get('/companyForm', function (req, res) {
-  res.render('companyForm')
+  res.render('companyForm');
 });
 
-app.listen(process.env.PORT, () => console.log('http://localhost:3000'));
+app.get('/screencap', function (req, res) {
+  res.render('screencap');
+});
 
 var db = require("./models");
 
