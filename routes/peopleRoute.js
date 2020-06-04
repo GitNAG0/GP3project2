@@ -1,0 +1,1 @@
+///getOneCompanyPeople/:company_id
