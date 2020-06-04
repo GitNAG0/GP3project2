@@ -3,7 +3,7 @@ $('#submitAddCompany').click(event => {
   event.preventDefault()
   let name = $('#name').val()
 
-  let newCompany = { name, user_id: JSON.parse(localStorage.getItem('currentUser')).id}
+  let newCompany = { name, user_id: localStorage.getItem('userID')}
 
   let temp;
   temp.newCompany = newCompany;
