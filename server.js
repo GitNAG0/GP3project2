@@ -12,10 +12,6 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
-const router = require('./routes')
-
-app.use(router)
-
 app.get('/', function (req, res) {
   res.render('info',req.body);
 });
@@ -29,7 +25,15 @@ app.get('/roundForm', function (req, res) {
   res.render('roundForm')
 });
 
+
+app.get('/companyForm', function (req, res) {
+  res.render('companyForm')
+});
+
+app.listen(process.env.PORT, () => console.log('http://localhost:3000'));
+
 var db = require("./models");
+
 app.use(express.json())
 var PORT = process.env.PORT || 8080;
 
@@ -42,7 +46,3 @@ db.sequelize.sync({ force: true }).then(function() {
     console.log("App listening on PORT " + PORT);
   });
 });
-
-
-
-

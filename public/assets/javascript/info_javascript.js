@@ -65,7 +65,7 @@ function createCompanyList(data) {
 };
 
 $(document).ready(function () {
-  // getCompanies(localStorage.getItem('userID'),createCompanyList);
+  getCompanies(localStorage.getItem('userID'),createCompanyList);
   // uncomment when sign-in and routes get built
   addAddModifyDeleteListeners()
 });
@@ -149,7 +149,7 @@ function generateCompanyProfile(anObject) {
   localStorage.setItem('currentCompany', JSON.stringify(anObject));
 
   //get last round data
-  axios.get(/api/getLastRound/${id})
+  axios.get(`/api/getLastRound/${id}`)
   .then(({data}) => {
     //render page with last round data
     axios.get('/', { companyName: name, lastRoundType: data.type, lastRoundAmount: data.amount })
@@ -279,3 +279,13 @@ function generateModifyRoundList(cb) {
       cb(myArr.join('\n'))
     });
 };
+
+//Add a new company
+$('#addCompany').click((event) => {
+  window.location = 'companyForm';
+});
+
+//delete a company
+$('#deleteCompany').click((event) => {
+  axios.delete(`/api/deleteOneCompany/${JSON.parse(localStorage.getItem('currentCompany')).id}`);
+});
