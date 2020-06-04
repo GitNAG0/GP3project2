@@ -6,12 +6,11 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const path = require('path');
 const app = express();
-
-app.use(express.static(path.join(__dirname, '/public')));
-
 const router = require('./routes')
 
-app.use('/api',router)
+app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.json())
+app.use('/api', router)
 
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
@@ -39,8 +38,6 @@ app.get('/screencap', function (req, res) {
 });
 
 var db = require("./models");
-
-app.use(express.json())
 var PORT = process.env.PORT || 8080;
 
 // DONT FORGET TO ADD BACK IN
