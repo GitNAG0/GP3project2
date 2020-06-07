@@ -19,17 +19,19 @@ $('#submitAddRound').click(event => {
 
   switch (localStorage.getItem('action')) {
     case 'add':
-      axios.post('/addOneRound', newRound)
+      let temp;
+      temp.newRound = newRound;
+      axios.post('/api/addOneRound', temp)
         .then(() => {
           window.location = 'home'
-        })
+        });
       break;
     case 'modify':
         let reqBody = {
-          id: localStorage.getItem('currentRound')).id
-          person: newRound
+          id: localStorage.getItem('currentRound').id
+          round: newRound
         };
-        axios.put('/updateOneRound', reqBody)
+        axios.put('/api/updateOneRound', reqBody)
           .then(() => {
             window.location = 'home'
           });
@@ -37,4 +39,5 @@ $('#submitAddRound').click(event => {
 
     default:
       break;
+        }
 })

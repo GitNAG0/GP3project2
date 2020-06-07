@@ -19,10 +19,14 @@ $('#submitAddPerson').click(event => {
     experience: $('#experience').val()
     company_id: JSON.parse(localStorage.getItem('currentCompany')).id
   };
+  
+  let temp;
+
+  temp.newPerson = newPerson;
 
   switch (localStorage.getItem('action')) {
     case 'add':
-      axios.post('/addOnePerson',newPerson)
+      axios.post('/api/createOnePerson',temp)
         .then(() => {
           window.location = 'home'
         });
@@ -32,7 +36,7 @@ $('#submitAddPerson').click(event => {
           id: JSON.parse(localStorage.getItem('currentPerson')).id
           person: newPerson
         };
-        axios.put('/updateOnePerson',reqBody)
+        axios.put('/api/updateOnePerson',reqBody)
         .then(() => {
           window.location = 'home'
         });
