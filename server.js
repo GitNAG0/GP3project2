@@ -38,10 +38,10 @@ app.get('/screencap', function (req, res) {
   res.render('screencap');
 });
 
-var db = require("./models");
+let db = require("./models");
 
 app.use(express.json())
-var PORT = process.env.PORT || 8080;
+let PORT = process.env.PORT || 8080;
 
 // DONT FORGET TO ADD BACK IN
 // app.use(require('./routes'))
