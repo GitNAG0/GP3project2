@@ -8,11 +8,12 @@ const router = require('express').Router()
     });
   });
 
+  // Finds all of one users companies, searches by UserId
   router.get("/companies/:id", function(req, res) {
     // Find one Companie with the id in req.params.id and return them to the user with res.json
-    db.Companie.findOne({
+    db.Companie.findAll({
       where: {
-        id: req.params.id
+        UserId: req.params.id
       }
     }).then(function(dbCompanie) {
       res.json(dbCompanie);

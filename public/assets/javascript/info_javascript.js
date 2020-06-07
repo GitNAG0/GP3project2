@@ -33,7 +33,7 @@ $(window).resize(function () { location.reload(); });
 
 //Function to get all companies on pageload
 function getCompanies(user_id,cb) {
-  axios.get(`/api/getAllCompaniesUser/${user_id}`)
+  axios.get(`/api/companies/${user_id}`)
   .then(({data}) => {
     cb(data);
   });
