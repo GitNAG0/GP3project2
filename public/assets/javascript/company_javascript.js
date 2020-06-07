@@ -7,7 +7,7 @@ $('#submitAddCompany').click(event => {
 
   let temp;
   temp.newCompany = newCompany;
-      axios.post('/api/addOneCompany', temp)
+      axios.post('/companies', temp)
         .then(() => {
           window.location = 'home'
         });

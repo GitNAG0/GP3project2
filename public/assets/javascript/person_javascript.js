@@ -13,10 +13,10 @@ $('#submitAddPerson').click(event => {
   event.preventDefault();
   //create person
   let newPerson = {
-    firstname: $('#firstname').val()
-    lastname: $('#lastname').val()
-    role: $('#role').val()
-    experience: $('#experience').val()
+    firstname: $('#firstname').val(),
+    lastname: $('#lastname').val(),
+    role: $('#role').val(),
+    experience: $('#experience').val(),
     company_id: JSON.parse(localStorage.getItem('currentCompany')).id
   };
   
@@ -26,17 +26,17 @@ $('#submitAddPerson').click(event => {
 
   switch (localStorage.getItem('action')) {
     case 'add':
-      axios.post('/api/createOnePerson',temp)
+      axios.post('/api/person',temp)
         .then(() => {
           window.location = 'home'
         });
       break;
     case 'modify':
         let reqBody = {
-          id: JSON.parse(localStorage.getItem('currentPerson')).id
+          id: JSON.parse(localStorage.getItem('currentPerson')).id,
           person: newPerson
         };
-        axios.put('/api/updateOnePerson',reqBody)
+        axios.put('/api/person',reqBody)
         .then(() => {
           window.location = 'home'
         });
