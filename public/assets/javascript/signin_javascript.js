@@ -1,3 +1,17 @@
+const Joi = require('@hapi/joi');
+
+const schema = Joi.object({
+  username: Joi.string()
+    .alphanum()
+    .min(3)
+    .max(30)
+    .required(),
+
+  password: Joi.string()
+    .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
+
+})
+
 $('#signIn').click(event => {
   event.preventDefault()
   axios.get('/api/users/all')
@@ -33,6 +47,13 @@ $('#signUp').click(event => {
       let userToVerify = { username: $('#username').val(), password: $('#password').val() }
       $('#errDiv').text('')
       let userFound = data.find(element => element.username == userToVerify.username)
+      const { error, value } = schema.validate(userToVerify);
+      if(error){
+        $('#errDiv').text('Invalid username or password.')
+      }
+      else{
+
+      }
       if (userFound) {
         $('#errDiv').text('That username already exists - please choose another one.')
       }
@@ -41,7 +62,7 @@ $('#signUp').click(event => {
           $('#errDiv').text('Username and password fields cannot be empty.')
         }
         else {
-          axios.post('/api/users/create', {newUser: { username: $('#username').val(), password: $('#password').val() }})
+          axios.post('/api/users/create', { newUser: { username: $('#username').val(), password: $('#password').val() } })
             .then(({ data }) => {
               localStorage.setItem('userID', data.id)
               $('#username').val('')
