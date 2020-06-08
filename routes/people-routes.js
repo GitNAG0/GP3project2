@@ -3,7 +3,9 @@ const router = require('express').Router()
 
   // Find all people and return them to the user with res.json
   router.get("/people", function(req, res) {
+    console.log(`doing get`)
     db.People.findAll().then(function(dbPeople) {
+      console.log(`dbpeople`,dbPeople)
       res.json(dbPeople);
     });
   });
@@ -15,6 +17,17 @@ const router = require('express').Router()
         id: req.params.id
       }
     }).then(function(dbPeople) {
+      res.json(dbPeople);
+    });
+  });
+
+  router.get("/getOneCompanyPeople/:id", function (req, res) {
+    // Find one People with the id in req.params.id and return them to the user with res.json
+    db.People.findAll({
+      where: {
+        CompanieId: req.params.id
+      }
+    }).then(function (dbPeople) {
       res.json(dbPeople);
     });
   });

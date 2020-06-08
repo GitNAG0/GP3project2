@@ -1,35 +1,30 @@
-const Joi = require('@hapi/joi');
-
-const schema = Joi.object({
-  username: Joi.string()
-    .alphanum()
-    .min(3)
-    .max(30)
+const schema = joi.object({
+  username: joi.string()
     .required(),
 
-  password: Joi.string()
+  password: joi.string()
     .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
 
 })
 
 $('#signIn').click(event => {
   event.preventDefault();
-  axios.get('/api/users/all')
+  axios.get('/api/users')
     .then(({ data }) => {
-      let userToVerify = { username: $('#username').val(), password: $('#password').val() };
-      $('#username').val('');
-      $('#password').val('');
+      let userToVerify = { username: $('#inputEmail').val(), password: $('#inputPassword').val() };
+      $('#inputEmail').val('');
+      $('#inputPassword').val('');
       $('#errDiv').text('');
       let userFound = data.find(element => element.username == userToVerify.username);
       if (userFound) {
         if (userFound.password == userToVerify.password) {
           localStorage.setItem('userID', userFound.id);
           window.location = 'info';
-        };
+        }
         else {
           $('#errDiv').text('Incorrect password.')
         };
-      };
+      }
       else {
         $('#errDiv').text('User not found.')
       };
@@ -41,10 +36,12 @@ $('#signIn').click(event => {
 })
 
 $('#signUp').click(event => {
+  console.log('signing up')
   event.preventDefault();
-  axios.get('/api/users/all')
+  axios.get('/api/users')
     .then(({ data }) => {
-      let userToVerify = { username: $('#username').val(), password: $('#password').val() };
+      console.log(`get result:`,data)
+      let userToVerify = { username: $('#inputEmail').val(), password: $('#inputPassword').val() };
       $('#errDiv').text('');
       let userFound = data.find(element => element.username == userToVerify.username);
       const { error, value } = schema.validate(userToVerify);
@@ -52,26 +49,26 @@ $('#signUp').click(event => {
         $('#errDiv').text('Invalid username or password.');
       }
       else{
-
-      }
-      if (userFound) {
-        $('#errDiv').text('That username already exists - please choose another one.');
-      }
-      else {
-        if ((!userToVerify.username) || (!userToVerify.password)) {
-          $('#errDiv').text('Username and password fields cannot be empty.');
+        if (userFound) {
+          $('#errDiv').text('That username already exists - please choose another one.');
         }
         else {
-          axios.post('/api/users/create', { newUser: { username: $('#username').val(), password: $('#password').val() } })
-            .then(({ data }) => {
-              localStorage.setItem('userID', data.id);
-              $('#username').val('');
-              $('#password').val('');
-              window.location = 'info';
-            }
-            )
-            .catch(err => console.log(err));
+          if ((!userToVerify.username) || (!userToVerify.password)) {
+            $('#errDiv').text('Username and password fields cannot be empty.');
+          }
+          else {
+            axios.post('/api/users', { username: $('#inputEmail').val(), password: $('#inputPassword').val() } )
+              .then(({ data }) => {
+                localStorage.setItem('userID', data.id);
+                $('#inputEmail').val('');
+                $('#inputPassword').val('');
+                window.location = 'info';
+              }
+              )
+              .catch(err => console.log(err));
+          }
         }
+
       }
     })
 })

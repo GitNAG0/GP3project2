@@ -8,7 +8,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <button class = "btn btn-info">Log Out</button>
+        <button class = "btn btn-info" id ="logOut">Log Out</button>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
@@ -24,7 +24,7 @@
       <div id="innerArea" class="bg-white border rounded p-3">
         <div class="row text-center mb-2">
           <div class="col">
-            <h1>{{companyName}}</h1>
+            <h1 id = "companyName">Company Name</h1>
           </div>
         </div>
         <div class="row">
@@ -34,10 +34,10 @@
           <div class="col-md-6">
             <div id="lastRound" class = "m-3">
               <h4>Last Round Raised</h4>
-              <p>Type: {{lastRoundType}}</p>
-              <p>Amount: {{lastRoundAmount}}</p>
+              <p>Type: <span id="lastRoundType"></span></p>
+              <p>Amount: <span id="lastRoundAmount"></span></p>
               <button class="btn btn-success" id="addRound">Add round</button>
-              <button class="btn btn-warning" id="modifyRound">Modify round</button>
+              <button class="btn btn-warning" id="modifyRound" data-toggle="modal" data-target="#modifyRoundModal">Modify round</button>
               <button class="btn btn-danger" type = "button" id="deleteRound" data-toggle="modal" data-target="#deleteRoundModal">Delete round</button>
             </div>
             <div id="team" class = "m-3">
@@ -46,10 +46,10 @@
                 <h6>Josh Joshisson</h6>
                 <p>Role: CEO</p>
                 <p>Experience: Business, Marketing</p>
+                </div>
                 <button class="btn btn-success" id="addPerson">Add person</button>
                 <button class="btn btn-warning" id="modifyPerson">Modify person</button>
                 <button class="btn btn-danger" id="deletePerson">Delete person</button>
-              </div>
             </div>
           </div>
         </div>
@@ -111,7 +111,7 @@
 </div>
 
 <!-- Modify round -->
-<div class="modal fade" id="deleteRoundModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="modifyRoundModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">

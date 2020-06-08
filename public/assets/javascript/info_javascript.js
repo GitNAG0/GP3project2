@@ -20,7 +20,7 @@ function drawChart() {
   // Display the chart inside the <div> element with id="piechart"
   //only if we're on the correct page
   console.log(window.location);
-  if(window.location.pathname == '/'){
+  if(window.location.pathname == '/info'){
     var chart = new google.visualization.PieChart(document.getElementById('charts'));
     chart.draw(data, options);
   }
@@ -48,7 +48,7 @@ function createCompanyList(data) {
   //Create new elements for each item in the company list, and add them to the page
   data.forEach(element => {
       //<button class="list-group-item list-group-item-action">Apple Inc.</button>
-    let newListItem = $('<button></button>').text(element.name);
+    let newListItem = $('<button></button>').text(element.companyName);
     newListItem.addClass("list-group-item companyBtn");
     newListItem.attr('id',element.id);
     $('#companies').append(newListItem);
@@ -66,6 +66,7 @@ function createCompanyList(data) {
 
 $(document).ready(function () {
   getCompanies(localStorage.getItem('userID'),createCompanyList);
+  getPeople(JSON.parse(localStorage.getItem('currentCompany')).id,createPeopleList)
   // uncomment when sign-in and routes get built
   addAddModifyDeleteListeners();
 });
@@ -73,8 +74,10 @@ $(document).ready(function () {
 
 //Function to get all people from a company
 function getPeople(company_id, cb) {
+  console.log(`companie id`,company_id)
   axios.get(`/api/getOneCompanyPeople/${company_id}`)
   .then(({ data }) => {
+    console.log(`getPeople axios data`,data)
     cb(data);
   });
 };
@@ -85,13 +88,22 @@ function createPeopleList(data) {
   //clear people list
   $('#people').html('');
 
+  console.log(`createPeopleList data`,data)
   //Create new elements for each item in the people list, and add them to the page
   data.forEach(element => {
+    let name = element.firstName+' '+element.lastName
     //<button class="list-group-item list-group-item-action">Apple Inc.</button>
     let newListItem = $('<button></button>').text(name);
     newListItem.addClass("list-group-item peopleBtn");
     newListItem.attr('id', element.id);
     $('#people').append(newListItem);
+  });
+  $('.peopleBtn').click(function (event) {
+    event.preventDefault;
+    axios.get(`/api/people/${this.id}`)
+      .then(({ data }) => {
+        generatePersonProfile(data);
+      })
   });
 };
 
@@ -102,7 +114,7 @@ function createPeopleList(data) {
 //be the button so we get the appropriate ID. An arrow function will skip a this context.
 $('.companyBtn').click(function (event) {
   event.preventDefault;
-  axios.get('/api/getOneCompany',{name: this.id})
+  axios.get(`/api/getOneCompany/${this.id}`)
   .then(({data}) => {
     generateCompanyProfile(data)
   });
@@ -145,35 +157,38 @@ $('.companyBtn').click(function (event) {
 function generateCompanyProfile(anObject) {
   //we can do this intelligently!
   //with handlebars templating!
-  let { name, id } = anObject;
+  let { companyName, id } = anObject;
   localStorage.setItem('currentCompany', JSON.stringify(anObject));
-
+  console.log('generating company prof')
+  console.log(companyName,id)
   //get last round data
   axios.get(`/api/getLastRound/${id}`)
   .then(({data}) => {
+    console.log('got last round')
+    console.log(data)
     //render page with last round data
-    axios.get('/', { companyName: name, lastRoundType: data.type, lastRoundAmount: data.amount })
-    .then(junk => {
-      getPeople(data.id,createPeopleList); //create people list
+    $('#companyName').text(companyName)
+    if(data){
+      $('#lastRoundType').text(data.type)
+      $('#lastRoundAmount').text(data.amount)
+    }
+    else{
+      $('#lastRoundType').text('none')
+      $('#lastRoundAmount').text('none')
+    }
+    
+      getPeople(id,createPeopleList); //create people list
       //add event listener to people buttons
-      $('.peopleBtn').click(function (event) {
-        event.preventDefault;
-        axios.get(`/api/getOnePerson/${this.id}`)
-          .then(({ data }) => {
-            generatePersonProfile(data);
-          })
-      });
       //clear person div
       $('#person').html('');
       //we can put a person in there when they select a person from the list
-    });
   });
 };
 
 //add event listener to people buttons
 $('.peopleBtn').click(function (event) {
   event.preventDefault;
-  axios.get(`/api/getOnePerson/${this.id}`)
+  axios.get(`/api/people/${this.id}`)
     .then(({ data }) => {
       generatePersonProfile(data);
     })
@@ -181,13 +196,9 @@ $('.peopleBtn').click(function (event) {
 
 function generatePersonProfile(anObject) {
   $('#person').html(`
-    <h6>${anObject.firstname} ${anObject.lastname}</h6>
+    <h6>${anObject.firstName} ${anObject.lastName}</h6>
     <p>Role: ${anObject.role}</p>
-    <p>Experience: ${anObject.experience}</p>
-    <button class="btn btn-success" id="addPerson">Add person</button>
-    <button class="btn btn-warning" id="modifyPerson">Modify person</button>
-    <button class="btn btn-danger" id="deletePerson">Delete person</button>
-    `);
+    <p>Experience: ${anObject.experience}</p>`);
   localStorage.setItem('currentPerson',JSON.stringify(anObject));
 }
 
@@ -196,7 +207,31 @@ function addAddModifyDeleteListeners(){
     window.location = 'roundForm';
   });
   // $('#modifyRound')
-  // $('#deleteRound')
+  $('#modifyRound').click(event => {
+    event.preventDefault();
+    generateModifyRoundList((string) => {
+      $('#modifyRoundList').html(string);
+      $('.modifyRoundListBtn').click(function (event) {
+        event.preventDefault();
+        localStorage.setItem('action', 'modify');
+        axios.get(`/api/rounds/${this.id}`).then(({ data }) => {
+          localStorage.setItem('currentRound', JSON.stringify(data));
+          window.location = 'roundForm'
+        });
+      });
+    })
+  });
+  //delete round evenet listener to fill out the modal
+  $('#deleteRound').click(event => {
+    event.preventDefault();
+    generateDeleteRoundList((string) => {
+      $('#deleteRoundList').html(string);
+      $('.deleteRoundListBtn').click(function (event) {
+        event.preventDefault();
+        axios.delete(`/api/rounds/${this.id}`).then(generateDeleteRoundList(doTheThing)); //regenerate list
+      });
+    })
+  });
   $('#addPerson').click((event) => {
     window.location = 'personForm';
     localStorage.setItem('action', 'add');
@@ -206,21 +241,9 @@ function addAddModifyDeleteListeners(){
     localStorage.setItem('action', 'modify');
   });
   $('#deletePerson').click((event) => {
-    axios.delete(`/api/deleteOnePerson/${JSON.parse(localStorage.getItem('currentPerson')).id}`);
+    axios.delete(`/api/people/${JSON.parse(localStorage.getItem('currentPerson')).id}`).then(location.reload());
   });
 }
-
-//delete round evenet listener to fill out the modal
-$('#deleteRound').click(event => {
-  event.preventDefault();
-  generateDeleteRoundList((string) => {
-    $('#deleteRoundList').html('string');
-    $('.deleteRoundListBtn').click(function (event) {
-      event.preventDefault();
-      axios.delete(`/api/deleteOneRound/${this.id}`).then(generateDeleteRoundList()); //regenerate list
-    });
-  })
-});
 
 {/* <button type="button" class="list-group-item list-group-item-action active">
   Cras justo odio
@@ -229,8 +252,13 @@ $('#deleteRound').click(event => {
   <button type="button" class="list-group-item list-group-item-action">Morbi leo risus</button>
   <button type="button" class="list-group-item list-group-item-action">Porta ac consectetur ac</button>
   <button type="button" class="list-group-item list-group-item-action" disabled>Vestibulum at eros</button> */}
+  
+function doTheThing(data) {
+  $("#deleteRoundList").html(data)
+}
 
 function generateDeleteRoundList(cb){
+  console.log('regenerating list')
   let myArr = [];
   axios.get(`/api/getOneCompanyRounds/${JSON.parse(localStorage.getItem('currentCompany')).id}`)
   .then(({data}) => {
@@ -244,20 +272,6 @@ function generateDeleteRoundList(cb){
 };
 
 //modify round evenet listener to fill out the modal
-$('#modifyRound').click(event => {
-  event.preventDefault();
-  generateModifyRoundList((string) => {
-    $('#modifyRoundList').html('string');
-    $('.modifyRoundListBtn').click(function (event) {
-      event.preventDefault();
-      localStorage.setItem('action','modify');
-      axios.get(`/api/getOneRound/${this.id}`).then(({data}) => {
-        localStorage.setItem('currentRound',JSON.stringify(data));
-        window.location = roundForm
-      });
-    });
-  })
-});
 
 {/* <button type="button" class="list-group-item list-group-item-action active">
   Cras justo odio
@@ -287,5 +301,12 @@ $('#addCompany').click((event) => {
 
 //delete a company
 $('#deleteCompany').click((event) => {
-  axios.delete(`/api/deleteOneCompany/${JSON.parse(localStorage.getItem('currentCompany')).id}`);
+  axios.delete(`/api/companies/${JSON.parse(localStorage.getItem('currentCompany')).id}`).then(location.reload())
 });
+
+
+$('#logOut').click(event =>  {
+  event.preventDefault()
+  window.location = '/'
+  localStorage.setItem('userID','null')
+})
