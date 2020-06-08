@@ -66,6 +66,7 @@ function createCompanyList(data) {
 
 $(document).ready(function () {
   getCompanies(localStorage.getItem('userID'),createCompanyList);
+  getPeople(JSON.parse(localStorage.getItem('currentCompany')).id,createPeopleList)
   // uncomment when sign-in and routes get built
   addAddModifyDeleteListeners();
 });
@@ -73,8 +74,10 @@ $(document).ready(function () {
 
 //Function to get all people from a company
 function getPeople(company_id, cb) {
+  console.log(`companie id`,company_id)
   axios.get(`/api/getOneCompanyPeople/${company_id}`)
   .then(({ data }) => {
+    console.log(`getPeople axios data`,data)
     cb(data);
   });
 };
@@ -85,6 +88,7 @@ function createPeopleList(data) {
   //clear people list
   $('#people').html('');
 
+  console.log(`createPeopleList data`,data)
   //Create new elements for each item in the people list, and add them to the page
   data.forEach(element => {
     let name = element.firstName+' '+element.lastName
@@ -161,7 +165,7 @@ function generateCompanyProfile(anObject) {
     $('#companyName').text(myObject.companyName)
     $('#lastRoundType').text(myObject.lastRoundType)
     $('#lastRoundAmount').text(myObject.lastRoundAmount)
-      getPeople(data.id,createPeopleList); //create people list
+      getPeople(id,createPeopleList); //create people list
       //add event listener to people buttons
       $('.peopleBtn').click(function (event) {
         event.preventDefault;
