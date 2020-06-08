@@ -21,17 +21,17 @@ $('#submitAddRound').click(event => {
     case 'add':
       let temp;
       temp.newRound = newRound;
-      axios.post('/api/addOneRound', temp)
+      axios.post('/api/round', temp)
         .then(() => {
           window.location = 'home';
         });
       break;
     case 'modify':
         let reqBody = {
-          id: localStorage.getItem('currentRound').id
+          id: localStorage.getItem('currentRound').id,
           round: newRound
         };
-        axios.put('/api/updateOneRound', reqBody)
+        axios.put('/api/round', reqBody)
           .then(() => {
             window.location = 'home';
           });

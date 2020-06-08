@@ -40,11 +40,8 @@ app.get('/screencap', function (req, res) {
 var db = require("./models");
 var PORT = process.env.PORT || 8080;
 
-// DONT FORGET TO ADD BACK IN
-// app.use(require('./routes'))
-
 // Syncing our sequelize models and then starting our Express app
-db.sequelize.sync({ force: true }).then(function() {
+db.sequelize.sync().then(function() {
   app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
   });

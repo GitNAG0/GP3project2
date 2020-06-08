@@ -1,14 +1,16 @@
 $('#submitAddCompany').click(event => {
   //autopopulate the fields if we're modifying
-  event.preventDefault();
-  let name = $('#name').val();
+  event.preventDefault()
+  localStorage.setItem('userID', '1')
+  let name = $('#name').val()
 
-  let newCompany = { name, user_id: localStorage.getItem('userID')};
+  let newCompany = { companyName: name, UserId: localStorage.getItem('userID')}
 
-  let temp;
-  temp.newCompany = newCompany;
-      axios.post('/api/addOneCompany', temp)
+
+  // let temp;
+  // temp.newCompany = newCompany;
+      axios.post('/api/companies',  newCompany)
         .then(() => {
-          window.location = 'home';
+          window.location = '/'
         });
 })

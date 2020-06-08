@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-    var Round = sequelize.define("Round", {
+    let Round = sequelize.define("Round", {
       // Giving the Author model a name of type STRING
       type: {
         type: DataTypes.STRING,
