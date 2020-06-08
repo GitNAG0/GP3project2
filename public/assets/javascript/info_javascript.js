@@ -20,7 +20,7 @@ function drawChart() {
   // Display the chart inside the <div> element with id="piechart"
   //only if we're on the correct page
   console.log(window.location);
-  if(window.location.pathname == '/'){
+  if(window.location.pathname == '/info'){
     var chart = new google.visualization.PieChart(document.getElementById('charts'));
     chart.draw(data, options);
   }
