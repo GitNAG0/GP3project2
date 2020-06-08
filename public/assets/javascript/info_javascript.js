@@ -48,7 +48,7 @@ function createCompanyList(data) {
   //Create new elements for each item in the company list, and add them to the page
   data.forEach(element => {
       //<button class="list-group-item list-group-item-action">Apple Inc.</button>
-    let newListItem = $('<button></button>').text(element.name);
+    let newListItem = $('<button></button>').text(element.companyName);
     newListItem.addClass("list-group-item companyBtn");
     newListItem.attr('id',element.id);
     $('#companies').append(newListItem);
