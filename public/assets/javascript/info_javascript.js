@@ -15,11 +15,11 @@ function drawChart() {
   ]);
 
   // Optional; add a title and set the width and height of the chart
-  var options = { 'title': 'Total Funding by Round (in k$)'};
+  let options = { 'title': 'Total Funding by Round (in k$)'};
 
   // Display the chart inside the <div> element with id="piechart"
   //only if we're on the correct page
-  console.log(window.location)
+  console.log(window.location);
   if(window.location.pathname == '/'){
     var chart = new google.visualization.PieChart(document.getElementById('charts'));
     chart.draw(data, options);
@@ -59,15 +59,15 @@ function createCompanyList(data) {
     event.preventDefault;
     axios.get(`/api/getOneCompany/${this.id}`)
       .then(({ data }) => {
-        generateCompanyProfile(data)
-      })
+        generateCompanyProfile(data);
+      });
   });
 };
 
 $(document).ready(function () {
   getCompanies(localStorage.getItem('userID'),createCompanyList);
   // uncomment when sign-in and routes get built
-  addAddModifyDeleteListeners()
+  addAddModifyDeleteListeners();
 });
 
 
@@ -105,7 +105,7 @@ $('.companyBtn').click(function (event) {
   axios.get('/api/getOneCompany',{name: this.id})
   .then(({data}) => {
     generateCompanyProfile(data)
-  })
+  });
 });
 
 //generate company profile given a company object
@@ -214,10 +214,10 @@ function addAddModifyDeleteListeners(){
 $('#deleteRound').click(event => {
   event.preventDefault();
   generateDeleteRoundList((string) => {
-    $('#deleteRoundList').html('string')
+    $('#deleteRoundList').html('string');
     $('.deleteRoundListBtn').click(function (event) {
-      event.preventDefault()
-      axios.delete(`/api/deleteOneRound/${this.id}`).then(generateDeleteRoundList()) //regenerate list
+      event.preventDefault();
+      axios.delete(`/api/deleteOneRound/${this.id}`).then(generateDeleteRoundList()); //regenerate list
     });
   })
 });
@@ -235,8 +235,8 @@ function generateDeleteRoundList(cb){
   axios.get(`/api/getOneCompanyRounds/${JSON.parse(localStorage.getItem('currentCompany')).id}`)
   .then(({data}) => {
     data.forEach(element => {
-      let newString = ` <button type="button" class="list-group-item list-group-item-action deleteRoundListBtn" id = "${element.id}">Type: ${element.type} Amount: ${element.amount}</button>`
-      myArr.push(newString)
+      let newString = ` <button type="button" class="list-group-item list-group-item-action deleteRoundListBtn" id = "${element.id}">Type: ${element.type} Amount: ${element.amount}</button>`;
+      myArr.push(newString);
     });
 
     cb(myArr.join('\n'))
@@ -247,14 +247,14 @@ function generateDeleteRoundList(cb){
 $('#modifyRound').click(event => {
   event.preventDefault();
   generateModifyRoundList((string) => {
-    $('#modifyRoundList').html('string')
+    $('#modifyRoundList').html('string');
     $('.modifyRoundListBtn').click(function (event) {
-      event.preventDefault()
-      localStorage.setItem('action','modify')
+      event.preventDefault();
+      localStorage.setItem('action','modify');
       axios.get(`/api/getOneRound/${this.id}`).then(({data}) => {
-        localStorage.setItem('currentRound',JSON.stringify(data))
+        localStorage.setItem('currentRound',JSON.stringify(data));
         window.location = roundForm
-      })
+      });
     });
   })
 });
@@ -272,11 +272,11 @@ function generateModifyRoundList(cb) {
   axios.get(`/api/getOneCompanyRounds/${JSON.parse(localStorage.getItem('currentCompany')).id}`)
     .then(({ data }) => {
       data.forEach(element => {
-        let newString = ` <button type="button" class="list-group-item list-group-item-action modifyRoundListBtn" id = "${element.id}">Type: ${element.type} Amount: ${element.amount}</button>`
-        myArr.push(newString)
+        let newString = ` <button type="button" class="list-group-item list-group-item-action modifyRoundListBtn" id = "${element.id}">Type: ${element.type} Amount: ${element.amount}</button>`;
+        myArr.push(newString);
       });
 
-      cb(myArr.join('\n'))
+      cb(myArr.join('\n'));
     });
 };
 
