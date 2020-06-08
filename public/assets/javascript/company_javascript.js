@@ -6,6 +6,7 @@ $('#submitAddCompany').click(event => {
 
   let newCompany = { companyName: name, UserId: localStorage.getItem('userID')}
 
+
   // let temp;
   // temp.newCompany = newCompany;
       axios.post('/api/companies',  newCompany)
