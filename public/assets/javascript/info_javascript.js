@@ -87,6 +87,7 @@ function createPeopleList(data) {
 
   //Create new elements for each item in the people list, and add them to the page
   data.forEach(element => {
+    let name = element.firstName+' '+element.lastName
     //<button class="list-group-item list-group-item-action">Apple Inc.</button>
     let newListItem = $('<button></button>').text(name);
     newListItem.addClass("list-group-item peopleBtn");
@@ -102,7 +103,7 @@ function createPeopleList(data) {
 //be the button so we get the appropriate ID. An arrow function will skip a this context.
 $('.companyBtn').click(function (event) {
   event.preventDefault;
-  axios.get('/api/getOneCompany',{name: this.id})
+  axios.get(`/api/getOneCompany/${this.id}`)
   .then(({data}) => {
     generateCompanyProfile(data)
   });
@@ -145,20 +146,26 @@ $('.companyBtn').click(function (event) {
 function generateCompanyProfile(anObject) {
   //we can do this intelligently!
   //with handlebars templating!
-  let { name, id } = anObject;
+  let { companyName, id } = anObject;
   localStorage.setItem('currentCompany', JSON.stringify(anObject));
-
+  console.log('generating company prof')
+  console.log(companyName,id)
   //get last round data
   axios.get(`/api/getLastRound/${id}`)
   .then(({data}) => {
+    console.log('got last round')
+    console.log(data)
     //render page with last round data
-    axios.get('/', { companyName: name, lastRoundType: data.type, lastRoundAmount: data.amount })
-    .then(junk => {
+    let myObject = { companyName, lastRoundType: data.type, lastRoundAmount: data.amount }
+    console.log(myObject)
+    $('#companyName').text(myObject.companyName)
+    $('#lastRoundType').text(myObject.lastRoundType)
+    $('#lastRoundAmount').text(myObject.lastRoundAmount)
       getPeople(data.id,createPeopleList); //create people list
       //add event listener to people buttons
       $('.peopleBtn').click(function (event) {
         event.preventDefault;
-        axios.get(`/api/getOnePerson/${this.id}`)
+        axios.get(`/api/people/${this.id}`)
           .then(({ data }) => {
             generatePersonProfile(data);
           })
@@ -166,14 +173,13 @@ function generateCompanyProfile(anObject) {
       //clear person div
       $('#person').html('');
       //we can put a person in there when they select a person from the list
-    });
   });
 };
 
 //add event listener to people buttons
 $('.peopleBtn').click(function (event) {
   event.preventDefault;
-  axios.get(`/api/getOnePerson/${this.id}`)
+  axios.get(`/api/people/${this.id}`)
     .then(({ data }) => {
       generatePersonProfile(data);
     })
@@ -206,7 +212,7 @@ function addAddModifyDeleteListeners(){
     localStorage.setItem('action', 'modify');
   });
   $('#deletePerson').click((event) => {
-    axios.delete(`/api/deleteOnePerson/${JSON.parse(localStorage.getItem('currentPerson')).id}`);
+    axios.delete(`/api/people/${JSON.parse(localStorage.getItem('currentPerson')).id}`);
   });
 }
 
@@ -217,7 +223,7 @@ $('#deleteRound').click(event => {
     $('#deleteRoundList').html('string');
     $('.deleteRoundListBtn').click(function (event) {
       event.preventDefault();
-      axios.delete(`/api/deleteOneRound/${this.id}`).then(generateDeleteRoundList()); //regenerate list
+      axios.delete(`/api/rounds/${this.id}`).then(generateDeleteRoundList(doTheThing)); //regenerate list
     });
   })
 });
@@ -229,6 +235,10 @@ $('#deleteRound').click(event => {
   <button type="button" class="list-group-item list-group-item-action">Morbi leo risus</button>
   <button type="button" class="list-group-item list-group-item-action">Porta ac consectetur ac</button>
   <button type="button" class="list-group-item list-group-item-action" disabled>Vestibulum at eros</button> */}
+  
+function doTheThing(data) {
+  $("#deleteRoundList").html(data)
+}
 
 function generateDeleteRoundList(cb){
   let myArr = [];
@@ -247,7 +257,7 @@ function generateDeleteRoundList(cb){
 $('#modifyRound').click(event => {
   event.preventDefault();
   generateModifyRoundList((string) => {
-    $('#modifyRoundList').html('string');
+    $('#modifyRoundList').html(string);
     $('.modifyRoundListBtn').click(function (event) {
       event.preventDefault();
       localStorage.setItem('action','modify');

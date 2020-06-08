@@ -1,6 +1,14 @@
 var db = require('../models');
 const router = require('express').Router()
 
+  //get most recent round, chronological sorted
+  router.get("/getLastRound/:id", function (req, res) {
+    db.Round.findOne({where: {CompanieID: req.params.id}}).then(function (dbRound) {
+      res.json(dbRound);
+      //temporary hack until i figure out date sorting
+    });
+  });
+
   // Find all rounds and return them to the user with res.json
   router.get("/rounds", function(req, res) {
     db.Round.findAll().then(function(dbRound) {
@@ -15,6 +23,17 @@ const router = require('express').Router()
         id: req.params.id
       }
     }).then(function(dbRound) {
+      res.json(dbRound);
+    });
+  });
+
+  router.get("/getOneCompanyRounds/:id", function (req, res) {
+    // Find one Round with the id in req.params.id and return them to the user with res.json
+    db.Round.findAll({
+      where: {
+        CompanieID: req.params.id
+      }
+    }).then(function (dbRound) {
       res.json(dbRound);
     });
   });

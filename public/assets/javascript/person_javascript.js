@@ -13,8 +13,8 @@ $('#submitAddPerson').click(event => {
   event.preventDefault();
   //create person
   let newPerson = {
-    firstname: $('#firstname').val(),
-    lastname: $('#lastname').val(),
+    firstName: $('#firstName').val(),
+    lastName: $('#lastName').val(),
     role: $('#role').val(),
     experience: $('#experience').val(),
     CompanieId: JSON.parse(localStorage.getItem('currentCompany')).id

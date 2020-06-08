@@ -21,6 +21,17 @@ const router = require('express').Router()
     });
   });
 
+  router.get("/getOneCompanyPeople/:id", function (req, res) {
+    // Find one People with the id in req.params.id and return them to the user with res.json
+    db.People.findAll({
+      where: {
+        CompanieId: req.params.id
+      }
+    }).then(function (dbPeople) {
+      res.json(dbPeople);
+    });
+  });
+
   router.post("/people", function(req, res) {
     // Create an People with the data available to us in req.body
     console.log(req.body);

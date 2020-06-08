@@ -24,7 +24,7 @@
       <div id="innerArea" class="bg-white border rounded p-3">
         <div class="row text-center mb-2">
           <div class="col">
-            <h1>{{companyName}}</h1>
+            <h1 id = "companyName">Company Name</h1>
           </div>
         </div>
         <div class="row">
@@ -34,8 +34,8 @@
           <div class="col-md-6">
             <div id="lastRound" class = "m-3">
               <h4>Last Round Raised</h4>
-              <p>Type: {{lastRoundType}}</p>
-              <p>Amount: {{lastRoundAmount}}</p>
+              <p>Type: <span id="lastRoundType"></span></p>
+              <p>Amount: <span id="lastRoundAmount"></span></p>
               <button class="btn btn-success" id="addRound">Add round</button>
               <button class="btn btn-warning" id="modifyRound">Modify round</button>
               <button class="btn btn-danger" type = "button" id="deleteRound" data-toggle="modal" data-target="#deleteRoundModal">Delete round</button>
@@ -46,10 +46,10 @@
                 <h6>Josh Joshisson</h6>
                 <p>Role: CEO</p>
                 <p>Experience: Business, Marketing</p>
+                </div>
                 <button class="btn btn-success" id="addPerson">Add person</button>
                 <button class="btn btn-warning" id="modifyPerson">Modify person</button>
                 <button class="btn btn-danger" id="deletePerson">Delete person</button>
-              </div>
             </div>
           </div>
         </div>

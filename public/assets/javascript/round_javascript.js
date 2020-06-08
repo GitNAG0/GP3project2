@@ -15,7 +15,7 @@ $('#submitAddRound').click(event => {
   let amount = $('#amount').val();
   let dateRaised = $('#dateRaised').val();
 
-  let newRound = { type, amount, dateRaised, company_id: JSON.parse(localStorage.getItem('currentCompany')).id};
+  let newRound = { type, amount, dateRaised, CompanieId: JSON.parse(localStorage.getItem('currentCompany')).id};
 
   switch (localStorage.getItem('action')) {
     case 'add':
