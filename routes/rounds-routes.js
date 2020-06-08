@@ -46,7 +46,7 @@ const router = require('express').Router()
     });
   });
 
-  router.put("/rounds", function(req, res) {
+  router.put("/rounds/:id", function(req, res) {
     // Update a Round with the data available to us in req.body
     console.log(req.body);
     db.Round.update(req.body, {where: {id: req.params.id}}

@@ -2,9 +2,9 @@ $(document).ready(function () {
   //autopopulate the fields if we're modifying
   if (localStorage.getItem('action') === 'modify') {
     let roundToModify = JSON.parse(localStorage.getItem('currentRound'));
-    for (let property in roundToModify) {
-      $(`#${property}`).val(roundToModify.property);
-    };
+    $('#type').val(roundToModify.type)
+    $('#amount').val(roundToModify.amount)
+    $('#dateRaised').val(roundToModify.dateRaised)
   };
 });
 

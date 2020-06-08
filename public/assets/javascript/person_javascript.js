@@ -1,10 +1,14 @@
 $(document).ready(function () {
   //autopopulate the fields if we're modifying
-  if(localStorage.getItem('action') === 'modify'){
+  console.log('get ready boi')
+  if(localStorage.getItem('action') == 'modify'){
     let personToModify = JSON.parse(localStorage.getItem('currentPerson'));
-    for(let property in personToModify){
-      $(`#${property}`).val(personToModify.property);
-    };
+    console.log(personToModify)
+    $(`#firstName`).val(personToModify.firstName);
+    $(`#lastName`).val(personToModify.lastName);
+    $(`#role`).val(personToModify.role);
+    $(`#experience`).val(personToModify.experience);
+
   };
 });
 
@@ -28,7 +32,7 @@ $('#submitAddPerson').click(event => {
         });
       break;
     case 'modify':
-      axios.put(`/api/person/${JSON.parse(localStorage.getItem('currentPerson')).id}`,newPerson)
+      axios.put(`/api/people/${JSON.parse(localStorage.getItem('currentPerson')).id}`,newPerson)
         .then(() => {
           window.location = 'info'
         });

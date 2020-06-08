@@ -207,7 +207,31 @@ function addAddModifyDeleteListeners(){
     window.location = 'roundForm';
   });
   // $('#modifyRound')
-  // $('#deleteRound')
+  $('#modifyRound').click(event => {
+    event.preventDefault();
+    generateModifyRoundList((string) => {
+      $('#modifyRoundList').html(string);
+      $('.modifyRoundListBtn').click(function (event) {
+        event.preventDefault();
+        localStorage.setItem('action', 'modify');
+        axios.get(`/api/rounds/${this.id}`).then(({ data }) => {
+          localStorage.setItem('currentRound', JSON.stringify(data));
+          window.location = 'roundForm'
+        });
+      });
+    })
+  });
+  //delete round evenet listener to fill out the modal
+  $('#deleteRound').click(event => {
+    event.preventDefault();
+    generateDeleteRoundList((string) => {
+      $('#deleteRoundList').html(string);
+      $('.deleteRoundListBtn').click(function (event) {
+        event.preventDefault();
+        axios.delete(`/api/rounds/${this.id}`).then(generateDeleteRoundList(doTheThing)); //regenerate list
+      });
+    })
+  });
   $('#addPerson').click((event) => {
     window.location = 'personForm';
     localStorage.setItem('action', 'add');
@@ -217,21 +241,9 @@ function addAddModifyDeleteListeners(){
     localStorage.setItem('action', 'modify');
   });
   $('#deletePerson').click((event) => {
-    axios.delete(`/api/people/${JSON.parse(localStorage.getItem('currentPerson')).id}`);
+    axios.delete(`/api/people/${JSON.parse(localStorage.getItem('currentPerson')).id}`).then(location.reload());
   });
 }
-
-//delete round evenet listener to fill out the modal
-$('#deleteRound').click(event => {
-  event.preventDefault();
-  generateDeleteRoundList((string) => {
-    $('#deleteRoundList').html('string');
-    $('.deleteRoundListBtn').click(function (event) {
-      event.preventDefault();
-      axios.delete(`/api/rounds/${this.id}`).then(generateDeleteRoundList(doTheThing)); //regenerate list
-    });
-  })
-});
 
 {/* <button type="button" class="list-group-item list-group-item-action active">
   Cras justo odio
@@ -246,6 +258,7 @@ function doTheThing(data) {
 }
 
 function generateDeleteRoundList(cb){
+  console.log('regenerating list')
   let myArr = [];
   axios.get(`/api/getOneCompanyRounds/${JSON.parse(localStorage.getItem('currentCompany')).id}`)
   .then(({data}) => {
@@ -259,20 +272,6 @@ function generateDeleteRoundList(cb){
 };
 
 //modify round evenet listener to fill out the modal
-$('#modifyRound').click(event => {
-  event.preventDefault();
-  generateModifyRoundList((string) => {
-    $('#modifyRoundList').html(string);
-    $('.modifyRoundListBtn').click(function (event) {
-      event.preventDefault();
-      localStorage.setItem('action','modify');
-      axios.get(`/api/getOneRound/${this.id}`).then(({data}) => {
-        localStorage.setItem('currentRound',JSON.stringify(data));
-        window.location = roundForm
-      });
-    });
-  })
-});
 
 {/* <button type="button" class="list-group-item list-group-item-action active">
   Cras justo odio
@@ -302,7 +301,7 @@ $('#addCompany').click((event) => {
 
 //delete a company
 $('#deleteCompany').click((event) => {
-  axios.delete(`/api/deleteOneCompany/${JSON.parse(localStorage.getItem('currentCompany')).id}`);
+  axios.delete(`/api/companies/${JSON.parse(localStorage.getItem('currentCompany')).id}`).then(location.reload())
 });
 
 
