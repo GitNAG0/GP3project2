@@ -160,11 +160,16 @@ function generateCompanyProfile(anObject) {
     console.log('got last round')
     console.log(data)
     //render page with last round data
-    let myObject = { companyName, lastRoundType: data.type, lastRoundAmount: data.amount }
-    console.log(myObject)
-    $('#companyName').text(myObject.companyName)
-    $('#lastRoundType').text(myObject.lastRoundType)
-    $('#lastRoundAmount').text(myObject.lastRoundAmount)
+    $('#companyName').text(companyName)
+    if(data){
+      $('#lastRoundType').text(data.type)
+      $('#lastRoundAmount').text(data.amount)
+    }
+    else{
+      $('#lastRoundType').text('none')
+      $('#lastRoundAmount').text('none')
+    }
+    
       getPeople(id,createPeopleList); //create people list
       //add event listener to people buttons
       $('.peopleBtn').click(function (event) {
