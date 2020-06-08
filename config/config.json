@@ -1,7 +1,7 @@
 {
     "development": {
       "username": "root",
-      "password": "rootPa55w*rd",
+      "password": "rootroot",
       "database": "project_db",
       "host": "127.0.0.1",
       "port": 3306,
