@@ -289,3 +289,10 @@ $('#addCompany').click((event) => {
 $('#deleteCompany').click((event) => {
   axios.delete(`/api/deleteOneCompany/${JSON.parse(localStorage.getItem('currentCompany')).id}`);
 });
+
+
+$('#logOut').click(event =>  {
+  event.preventDefault()
+  window.location = '/'
+  localStorage.setItem('userID','null')
+})
