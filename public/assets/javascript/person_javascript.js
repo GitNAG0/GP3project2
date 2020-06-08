@@ -28,7 +28,7 @@ $('#submitAddPerson').click(event => {
     case 'add':
       axios.post('/api/person',temp)
         .then(() => {
-          window.location = 'home'
+          window.location = 'info'
         });
       break;
     case 'modify':
@@ -38,7 +38,7 @@ $('#submitAddPerson').click(event => {
         };
         axios.put('/api/person',reqBody)
         .then(() => {
-          window.location = 'home'
+          window.location = 'info'
         });
       break;
 

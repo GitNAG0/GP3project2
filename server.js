@@ -16,8 +16,13 @@ app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
 app.get('/', function (req, res) {
-  res.render('info',req.body);
+  res.render('signin',req.body);
 });
+
+app.get('/info', function (req, res) {
+  res.render('info', req.body);
+});
+
 
 app.get('/personForm', function (req,res) {
   res.render('personForm');

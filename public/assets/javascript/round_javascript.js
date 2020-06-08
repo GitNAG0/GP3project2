@@ -23,7 +23,7 @@ $('#submitAddRound').click(event => {
       temp.newRound = newRound;
       axios.post('/api/round', temp)
         .then(() => {
-          window.location = 'home';
+          window.location = 'info';
         });
       break;
     case 'modify':
@@ -33,7 +33,7 @@ $('#submitAddRound').click(event => {
         };
         axios.put('/api/round', reqBody)
           .then(() => {
-            window.location = 'home';
+            window.location = 'info';
           });
       break;
 

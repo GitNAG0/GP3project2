@@ -11,6 +11,6 @@ $('#submitAddCompany').click(event => {
   // temp.newCompany = newCompany;
       axios.post('/api/companies',  newCompany)
         .then(() => {
-          window.location = '/'
+          window.location = 'info'
         });
 })

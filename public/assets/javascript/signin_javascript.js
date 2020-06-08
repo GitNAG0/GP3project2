@@ -24,7 +24,7 @@ $('#signIn').click(event => {
       if (userFound) {
         if (userFound.password == userToVerify.password) {
           localStorage.setItem('userID', userFound.id);
-          window.location = 'home';
+          window.location = 'info';
         };
         else {
           $('#errDiv').text('Incorrect password.')
@@ -67,7 +67,7 @@ $('#signUp').click(event => {
               localStorage.setItem('userID', data.id);
               $('#username').val('');
               $('#password').val('');
-              window.location = 'home';
+              window.location = 'info';
             }
             )
             .catch(err => console.log(err));
