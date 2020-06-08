@@ -17,26 +17,18 @@ $('#submitAddPerson').click(event => {
     lastname: $('#lastname').val(),
     role: $('#role').val(),
     experience: $('#experience').val(),
-    company_id: JSON.parse(localStorage.getItem('currentCompany')).id
+    CompanieId: JSON.parse(localStorage.getItem('currentCompany')).id
   };
-  
-  let temp;
-
-  temp.newPerson = newPerson;
 
   switch (localStorage.getItem('action')) {
     case 'add':
-      axios.post('/api/person',temp)
+      axios.post('/api/people',newPerson)
         .then(() => {
           window.location = 'info'
         });
       break;
     case 'modify':
-        let reqBody = {
-          id: JSON.parse(localStorage.getItem('currentPerson')).id,
-          person: newPerson
-        };
-        axios.put('/api/person',reqBody)
+      axios.put(`/api/person/${JSON.parse(localStorage.getItem('currentPerson')).id}`,newPerson)
         .then(() => {
           window.location = 'info'
         });
