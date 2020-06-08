@@ -98,6 +98,13 @@ function createPeopleList(data) {
     newListItem.attr('id', element.id);
     $('#people').append(newListItem);
   });
+  $('.peopleBtn').click(function (event) {
+    event.preventDefault;
+    axios.get(`/api/people/${this.id}`)
+      .then(({ data }) => {
+        generatePersonProfile(data);
+      })
+  });
 };
 
 //Need to call getPeople when a new company is selected
@@ -172,13 +179,6 @@ function generateCompanyProfile(anObject) {
     
       getPeople(id,createPeopleList); //create people list
       //add event listener to people buttons
-      $('.peopleBtn').click(function (event) {
-        event.preventDefault;
-        axios.get(`/api/people/${this.id}`)
-          .then(({ data }) => {
-            generatePersonProfile(data);
-          })
-      });
       //clear person div
       $('#person').html('');
       //we can put a person in there when they select a person from the list
@@ -196,13 +196,9 @@ $('.peopleBtn').click(function (event) {
 
 function generatePersonProfile(anObject) {
   $('#person').html(`
-    <h6>${anObject.firstname} ${anObject.lastname}</h6>
+    <h6>${anObject.firstName} ${anObject.lastName}</h6>
     <p>Role: ${anObject.role}</p>
-    <p>Experience: ${anObject.experience}</p>
-    <button class="btn btn-success" id="addPerson">Add person</button>
-    <button class="btn btn-warning" id="modifyPerson">Modify person</button>
-    <button class="btn btn-danger" id="deletePerson">Delete person</button>
-    `);
+    <p>Experience: ${anObject.experience}</p>`);
   localStorage.setItem('currentPerson',JSON.stringify(anObject));
 }
 
