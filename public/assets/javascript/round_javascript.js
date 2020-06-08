@@ -19,19 +19,13 @@ $('#submitAddRound').click(event => {
 
   switch (localStorage.getItem('action')) {
     case 'add':
-      let temp;
-      temp.newRound = newRound;
-      axios.post('/api/round', temp)
+      axios.post('/api/rounds', newRound)
         .then(() => {
           window.location = 'info';
         });
       break;
     case 'modify':
-        let reqBody = {
-          id: localStorage.getItem('currentRound').id,
-          round: newRound
-        };
-        axios.put('/api/round', reqBody)
+      axios.put(`/api/rounds/${JSON.parse(localStorage.getItem('currentRound')).id}`, newRound)
           .then(() => {
             window.location = 'info';
           });
