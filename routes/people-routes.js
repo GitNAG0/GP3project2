@@ -3,7 +3,9 @@ const router = require('express').Router()
 
   // Find all people and return them to the user with res.json
   router.get("/people", function(req, res) {
+    console.log(`doing get`)
     db.People.findAll().then(function(dbPeople) {
+      console.log(`dbpeople`,dbPeople)
       res.json(dbPeople);
     });
   });

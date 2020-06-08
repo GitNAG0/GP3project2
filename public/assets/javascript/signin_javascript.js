@@ -9,7 +9,7 @@ const schema = joi.object({
 
 $('#signIn').click(event => {
   event.preventDefault();
-  axios.get('/api/people')
+  axios.get('/api/users')
     .then(({ data }) => {
       let userToVerify = { username: $('#inputEmail').val(), password: $('#inputPassword').val() };
       $('#inputEmail').val('');
@@ -38,8 +38,9 @@ $('#signIn').click(event => {
 $('#signUp').click(event => {
   console.log('signing up')
   event.preventDefault();
-  axios.get('/api/people')
+  axios.get('/api/users')
     .then(({ data }) => {
+      console.log(`get result:`,data)
       let userToVerify = { username: $('#inputEmail').val(), password: $('#inputPassword').val() };
       $('#errDiv').text('');
       let userFound = data.find(element => element.username == userToVerify.username);
@@ -48,26 +49,26 @@ $('#signUp').click(event => {
         $('#errDiv').text('Invalid username or password.');
       }
       else{
-
-      }
-      if (userFound) {
-        $('#errDiv').text('That username already exists - please choose another one.');
-      }
-      else {
-        if ((!userToVerify.username) || (!userToVerify.password)) {
-          $('#errDiv').text('Username and password fields cannot be empty.');
+        if (userFound) {
+          $('#errDiv').text('That username already exists - please choose another one.');
         }
         else {
-          axios.post('/api/users/create', { newUser: { username: $('#inputEmail').val(), password: $('#inputPassword').val() } })
-            .then(({ data }) => {
-              localStorage.setItem('userID', data.id);
-              $('#inputEmail').val('');
-              $('#inputPassword').val('');
-              window.location = 'info';
-            }
-            )
-            .catch(err => console.log(err));
+          if ((!userToVerify.username) || (!userToVerify.password)) {
+            $('#errDiv').text('Username and password fields cannot be empty.');
+          }
+          else {
+            axios.post('/api/users', { username: $('#inputEmail').val(), password: $('#inputPassword').val() } )
+              .then(({ data }) => {
+                localStorage.setItem('userID', data.id);
+                $('#inputEmail').val('');
+                $('#inputPassword').val('');
+                window.location = 'info';
+              }
+              )
+              .catch(err => console.log(err));
+          }
         }
+
       }
     })
 })
